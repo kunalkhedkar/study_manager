@@ -14,29 +14,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void onClickSchedule(View view)
-    {
+    public void onClickSchedule(View view) {
 
     }
 
-    public void oClickSubject(View view)
-    {
+    public void onclickSubject(View view) {
 
     }
 
-    public void onClickTask(View view)
-    {
+    public void onClickTask(View view) {
 
     }
 
-    public void onClickExam(View view)
-    {
+    public void onclickExam(View view) {
 
     }
 
-    public void onClickMark(View view)
-    {
-        Intent addMarkIntent= new Intent(getApplicationContext(),AddMark.class);
+    public void onClickMark(View view) {
+        Intent addMarkIntent = new Intent(getApplicationContext(), AddMark.class);
         startActivity(addMarkIntent);
     }
 }
