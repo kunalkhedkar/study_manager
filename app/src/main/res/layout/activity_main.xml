@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:layout_centerInParent="true">
+
+    <Button
+        android:textColor="#ac0000"
+        android:id="@+id/bt_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Schedule"
+        android:onClick="onClickSchedule"/>
+
+    <Button
+        android:textColor="#ac0000"
+        android:id="@+id/bt_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Subject"
+        android:onClick="onclickSubject"/>
+
+
+    <Button
+        android:textColor="#ac0000"
+        android:id="@+id/bt_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Task"
+        android:onClick="onClickTask"/>
+
+
+    <Button
+        android:textColor="#ac0000"
+        android:id="@+id/bt_exam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Exam"
+        android:onClick="onclickexam"/>
+
+    <Button
+        android:textColor="#49ac15"
+        android:id="@+id/bt_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mark"
+        android:onClick="onClickMark"/>
+
+
+</LinearLayout>
