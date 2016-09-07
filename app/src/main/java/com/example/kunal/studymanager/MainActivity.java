@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickTask(View view) {
 
+        Intent addTaskIntent = new Intent(getApplicationContext(), AddTask.class);
+        startActivity(addTaskIntent);
+
+
     }
 
     public void onclickExam(View view) {
