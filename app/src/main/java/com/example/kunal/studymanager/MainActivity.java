@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onclickSubject(View view) {
-
+        Intent addSubjectIntent = new Intent(getApplicationContext(), AddSubject.class);
+        startActivity(addSubjectIntent);
     }
 
     public void onClickTask(View view) {
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onclickExam(View view) {
+        Intent addExamIntent = new Intent(getApplicationContext(), AddExam.class);
+        startActivity(addExamIntent);
 
     }
 

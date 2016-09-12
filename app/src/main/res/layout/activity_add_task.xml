@@ -23,9 +23,9 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -36,39 +36,125 @@
 
 
             <EditText
-                android:id="@+id/DatePick"
+                android:id="@+id/TaskDatePick"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:focusable="false"
-                android:onClick="chooseDate" />
+                android:onClick="TaskChooseDate" />
         </LinearLayout>
 
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:text="Time"
                 android:textSize="20sp" />
 
 
             <EditText
-                android:hint="Optional"
+                android:id="@+id/TaskTimePick"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/TimePick"
+                android:layout_marginTop="5dp"
+                android:focusable="false"
+                android:onClick="TaskChooseTime" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Remainder"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Date"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:id="@+id/ReminderDatePick"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:focusable="false"
-                android:onClick="chooseTime" />
+                android:onClick="ReminderChooseDate" />
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="Time"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:id="@+id/ReminderTimePick"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:focusable="false"
+                android:onClick="ReminderChooseTime" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+
+            android:layout_weight="1"
+            android:onClick="onClickOk"
+            android:text="ok" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:onClick="onClickCancel"
+            android:text="Cancel" />
 
     </LinearLayout>
 </LinearLayout>
