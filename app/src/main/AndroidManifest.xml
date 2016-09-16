@@ -20,6 +20,8 @@
         <activity android:name=".AddTask" />
         <activity android:name=".AddSubject" />
         <activity android:name=".AddExam"></activity>
+
+        <receiver android:name=".AlarmBroadcastReceiver" />
     </application>
 
 </manifest>
