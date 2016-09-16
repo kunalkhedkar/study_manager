@@ -8,51 +8,61 @@
     android:padding="30dp">
 
     <Button
+        android:textSize="17sp"
         android:id="@+id/bt_schedule"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:onClick="onClickSchedule"
         android:text="Schedule"
-        android:textColor="#ac0000" />
+        android:textColor="@color/colorPrimary" />
 
     <Button
+        android:textSize="17sp"
+        android:textStyle="bold"
         android:id="@+id/bt_subject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:onClick="onclickSubject"
         android:text="Subject"
-        android:textColor="#49ac15" />
+        android:textColor="@color/colorPrimary" />
 
 
     <Button
+        android:textSize="17sp"
+        android:textStyle="bold"
         android:id="@+id/bt_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:onClick="onClickTask"
         android:text="Task"
-        android:textColor="#49ac15" />
+        android:textColor="@color/colorPrimary" />
 
 
     <Button
+        android:textSize="17sp"
+        android:textStyle="bold"
         android:id="@+id/bt_exam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:onClick="onclickExam"
         android:text="Exam"
-        android:textColor="#49ac15" />
+        android:textColor="@color/colorPrimary" />
 
     <Button
+        android:textSize="17sp"
+        android:textStyle="bold"
         android:id="@+id/bt_mark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:onClick="onClickMark"
         android:text="Mark"
-        android:textColor="#49ac15" />
+        android:textColor="@color/colorPrimary" />
 
 
 </LinearLayout>

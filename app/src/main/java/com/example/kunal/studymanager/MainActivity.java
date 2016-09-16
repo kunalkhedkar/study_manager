@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClickSchedule(View view) {
+        Intent scheduleData = new Intent(getApplicationContext(), ScheduleData.class);
+        startActivity(scheduleData);
 
     }
 
