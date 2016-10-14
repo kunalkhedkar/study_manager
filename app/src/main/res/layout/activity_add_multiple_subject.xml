@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:fillViewport="true"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/subject1"
+                    android:hint="Subject1"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/chpt1"
+                    android:hint="Chpt"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/subject2"
+                    android:hint="Subject2"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/chpt2"
+                    android:hint="Chpt"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/subject3"
+                    android:hint="Subject3"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/chpt3"
+                    android:hint="Chpt"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/subject4"
+                    android:hint="Subject4"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/chpt4"
+                    android:hint="Chpt"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/subject5"
+                    android:hint="Subject5"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/chpt5"
+                    android:hint="Chpt"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/subject"
+                    android:hint="Subject6"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/chpt6"
+                    android:hint="Chpt"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/subject7"
+                    android:hint="Subject7"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/chpt7"
+                    android:hint="Chpt"
+                    android:layout_marginLeft="70dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/subject8"
+                    android:hint="Subject8"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/chpt8"
+                    android:hint="Chpt"
+                    android:layout_marginLeft="70dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:onClick="onClickOk"
+            android:text="ok" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:onClick="onClickCancel"
+            android:text="Cancel" />
+    </LinearLayout>
+</LinearLayout>
