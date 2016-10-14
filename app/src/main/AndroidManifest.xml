@@ -19,9 +19,24 @@
         <activity android:name=".AddMark" />
         <activity android:name=".AddTask" />
         <activity android:name=".AddSubject" />
-        <activity android:name=".AddExam"></activity>
+        <activity android:name=".AddExam" />
 
         <receiver android:name=".AlarmBroadcastReceiver" />
+
+        <activity
+            android:name="com.example.kunal.ShowSubject"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ShowMark"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ShowExam"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ShowTask"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".SchedulerNext" />
+        <activity android:name=".AddMultipleSubject"></activity>
     </application>
 
 </manifest>

@@ -22,20 +22,25 @@
         android:layout_marginTop="10dp"
         android:onClick="ChooseTargetDate" />
 
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <TextView
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Total Subject"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/TotalSubject"
-        android:inputType="number"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+        <Spinner
+            android:layout_marginLeft="20dp"
+            android:id="@+id/TotalSubject"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
 
 
     <TextView
@@ -43,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Number Of Subject Per Day"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
 
     <Spinner
@@ -57,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Select Repetition"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
 
     <Spinner
@@ -65,6 +70,29 @@
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Select Days For Revision"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_marginLeft="25dp"
+            android:id="@+id/RevisionDays"
+            android:inputType="number"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"

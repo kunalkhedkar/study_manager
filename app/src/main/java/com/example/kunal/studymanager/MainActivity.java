@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.kunal.ShowSubject;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -21,26 +23,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onclickSubject(View view) {
-        Intent addSubjectIntent = new Intent(getApplicationContext(), AddSubject.class);
-        startActivity(addSubjectIntent);
+        Intent showSubjectIntent = new Intent(getApplicationContext(), ShowSubject.class);
+        startActivity(showSubjectIntent);
     }
 
     public void onClickTask(View view) {
 
-        Intent addTaskIntent = new Intent(getApplicationContext(), AddTask.class);
-        startActivity(addTaskIntent);
+        Intent showTaskIntent = new Intent(getApplicationContext(), ShowTask.class);
+        startActivity(showTaskIntent);
 
 
     }
 
     public void onclickExam(View view) {
-        Intent addExamIntent = new Intent(getApplicationContext(), AddExam.class);
-        startActivity(addExamIntent);
+        Intent showExamIntent = new Intent(getApplicationContext(), ShowExam.class);
+        startActivity(showExamIntent);
 
     }
 
     public void onClickMark(View view) {
-        Intent addMarkIntent = new Intent(getApplicationContext(), AddMark.class);
-        startActivity(addMarkIntent);
+        Intent showMarkIntent = new Intent(getApplicationContext(), ShowMark.class);
+        startActivity(showMarkIntent);
     }
 }

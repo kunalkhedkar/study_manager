@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -48,6 +50,14 @@ public class AddMark extends AppCompatActivity {
         str_testName = testName.getText().toString();
         val_scoredMarks = Integer.parseInt(scoredMarks.getText().toString());
         val_outOfMarks = Integer.parseInt(outOfMarks.getText().toString());
+
+        Mark mk = new Mark(str_choose_subject, str_testName, val_scoredMarks, val_outOfMarks);
+
+        MarkManager.getInstance().addMark(mk);
+
+
+        Intent showMarkIntent = new Intent(getApplicationContext(), ShowMark.class);
+        startActivity(showMarkIntent);
 
         Log.d(TAG, "subject  :  " + str_choose_subject + "  scored marks  :  " + val_scoredMarks + " out of marks   :  " + val_outOfMarks);
         Toast.makeText(AddMark.this, "Data Accepted", Toast.LENGTH_SHORT).show();
