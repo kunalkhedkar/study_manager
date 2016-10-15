@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Study Schedule"
+        android:text="Your Study Schedule Days"
         android:textSize="30sp" />
 
     <LinearLayout
