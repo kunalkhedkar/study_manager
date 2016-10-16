@@ -27,7 +27,7 @@ public class ShowExam extends AppCompatActivity {
         setTitle("Marks");
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         fab = (FloatingActionButton) findViewById(R.id.fab_add);
-        tempDisplay = (TextView) findViewById(R.id.tempDisplay);
+
         //    init();
 
         ArrayList<HashMap<String, String>> data = populateData();
