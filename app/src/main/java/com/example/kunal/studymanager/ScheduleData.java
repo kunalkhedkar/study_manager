@@ -105,6 +105,7 @@ public class ScheduleData extends AppCompatActivity {
         addMultipleSubjectIntent.putExtra("no_of_sub_day", no_of_sub_day);
         addMultipleSubjectIntent.putExtra("repetition", repetition);
         addMultipleSubjectIntent.putExtra("revisionDays", revDays);
+        addMultipleSubjectIntent.putExtra("lastDateSchedule",TARGET_CALENDAR_DATE.getTimeInMillis());
 
         startActivity(addMultipleSubjectIntent);
 

@@ -34,6 +34,7 @@
                     android:visibility="gone"
                     android:id="@+id/chpt1"
                     android:hint="Chpt"
+                    android:inputType="number"
                     android:layout_marginLeft="50dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
@@ -57,6 +58,7 @@
                     android:visibility="gone"
                     android:id="@+id/chpt2"
                     android:hint="Chpt"
+                    android:inputType="number"
                     android:layout_marginLeft="50dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
@@ -80,6 +82,7 @@
                     android:visibility="gone"
                     android:id="@+id/chpt3"
                     android:hint="Chpt"
+                    android:inputType="number"
                     android:layout_marginLeft="50dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
@@ -103,6 +106,7 @@
                     android:visibility="gone"
                     android:id="@+id/chpt4"
                     android:hint="Chpt"
+                    android:inputType="number"
                     android:layout_marginLeft="50dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
@@ -126,6 +130,7 @@
                     android:visibility="gone"
                     android:id="@+id/chpt5"
                     android:hint="Chpt"
+                    android:inputType="number"
                     android:layout_marginLeft="50dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
@@ -149,6 +154,7 @@
                     android:visibility="gone"
                     android:id="@+id/chpt6"
                     android:hint="Chpt"
+                    android:inputType="number"
                     android:layout_marginLeft="50dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
@@ -172,6 +178,7 @@
                     android:visibility="gone"
                     android:id="@+id/chpt7"
                     android:hint="Chpt"
+                    android:inputType="number"
                     android:layout_marginLeft="70dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
@@ -195,6 +202,7 @@
                     android:visibility="gone"
                     android:id="@+id/chpt8"
                     android:hint="Chpt"
+                    android:inputType="number"
                     android:layout_marginLeft="70dp"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
