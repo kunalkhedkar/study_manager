@@ -91,7 +91,7 @@ public class ScheduleData extends AppCompatActivity {
 
         long daysDiff = (TimeUnit.MILLISECONDS.toDays(msDiff)) + 1;
 
-        Toast.makeText(ScheduleData.this, daysDiff + " days are selected for schedule", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ScheduleData.this, daysDiff+1 + " days are selected for schedule", Toast.LENGTH_SHORT).show();
 
 
         no_of_sub_day = Integer.parseInt(NoOfSubDay.getSelectedItem().toString());

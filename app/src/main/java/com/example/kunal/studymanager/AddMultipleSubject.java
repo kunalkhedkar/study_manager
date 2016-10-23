@@ -29,8 +29,9 @@ public class AddMultipleSubject extends AppCompatActivity {
     private static final String TAG = "AddMultipleSubject";
     private int no_of_sub_day, repetition, totalSubjects, revisionDays;
     private long daysDiff;
-    Calendar LAST_DATE_OF_SCHEDULE = Calendar.getInstance();
+    private Calendar LAST_DATE_OF_SCHEDULE = Calendar.getInstance();
     Calendar start = Calendar.getInstance();
+    Calendar end1 = Calendar.getInstance();
     int Count_Arr_Days[];
     ArrayList<String> subjectArrayList = new ArrayList<>();
 
@@ -84,6 +85,9 @@ public class AddMultipleSubject extends AppCompatActivity {
         long date = bundle.getLong("lastDateSchedule");
         LAST_DATE_OF_SCHEDULE.setTimeInMillis(date);
         Count_Arr_Days = new int[totalSubjects];
+        end1.setTimeInMillis(date);
+
+
     }
 
 
@@ -98,9 +102,9 @@ public class AddMultipleSubject extends AppCompatActivity {
 
         BuildSchedule();
 
-        int i=0;
+        int i = 0;
         for (String sub : subjectArrayList) {
-            Log.d(TAG, sub+"   :  "+Count_Arr_Days[i]);
+            Log.d(TAG, sub + "   :  " + Count_Arr_Days[i]);
             i++;
 
         }
@@ -111,6 +115,7 @@ public class AddMultipleSubject extends AppCompatActivity {
         scheduleNext.putExtra("no_of_sub_day", no_of_sub_day);
         scheduleNext.putExtra("repetition", repetition);
         scheduleNext.putExtra("revisionDays", revisionDays);
+        scheduleNext.putExtra("Count_array",Count_Arr_Days);
 
         startActivity(scheduleNext);
     }
@@ -137,17 +142,15 @@ public class AddMultipleSubject extends AppCompatActivity {
     }
 
 
-    void IncrementCounter(String temp){
+    void IncrementCounter(String temp) {
 
-        int i=0;
+        int i = 0;
         for (String sub : subjectArrayList) {
-            if(sub.equals(temp))
-            {
+            if (sub.equals(temp)) {
                 Count_Arr_Days[i]++;
             }
             i++;
         }
-
 
 
     }
@@ -155,16 +158,20 @@ public class AddMultipleSubject extends AppCompatActivity {
     void CounterFunction(String title) {
 
         String[] parts = title.split("_");
-        if (parts.length == 2){
+        if (parts.length == 2) {
             IncrementCounter(parts[0]);
             IncrementCounter(parts[1]);
         }
-        if (parts.length == 3){
+        else if (parts.length == 3) {
             IncrementCounter(parts[0]);
             IncrementCounter(parts[1]);
             IncrementCounter(parts[2]);
 
         }
+        else if(!title.equals("Revision") && parts.length==1){
+            IncrementCounter(title);
+        }
+
 
 
     }
@@ -238,7 +245,6 @@ public class AddMultipleSubject extends AppCompatActivity {
     public void BuildSchedule() {
 
 
-
         ArrayList<Subject> allSubjects = SubjectManager.getInstance().getAllSubjects();
         for (Subject sub : allSubjects) {
             subjectArrayList.add(sub.getName());
@@ -247,8 +253,8 @@ public class AddMultipleSubject extends AppCompatActivity {
 
         Calendar start = Calendar.getInstance();
         Calendar end = LAST_DATE_OF_SCHEDULE;
-
-        end.add(Calendar.DATE, 1);  // not adding schedule to last date so +1
+        // minus revison days
+        end.add(Calendar.DATE, -(revisionDays-1));
         long TimeInMillis = 0;
 
         ListIterator<String> listIter = subjectArrayList.listIterator();
@@ -357,8 +363,18 @@ public class AddMultipleSubject extends AppCompatActivity {
 
             }
 
+
         }
 
+        end1.add(Calendar.DATE,2);
+        start=end;
+        start.add(Calendar.DATE,1);
+
+
+        for (Date date = start.getTime(); start.before(end1); start.add(Calendar.DATE, 1), date = start.getTime()) {
+            TimeInMillis = date.getTime();
+            addEvent("Revision",TimeInMillis);
+        }
 
     }
 }
