@@ -65,4 +65,16 @@
         android:textColor="@color/colorPrimary" />
 
 
+
+    <Button
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:id="@+id/bt_show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:onClick="onClickshow"
+        android:text="Show Schedule"
+        android:textColor="@color/colorPrimary" />
+
 </LinearLayout>

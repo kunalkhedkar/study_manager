@@ -3,6 +3,8 @@
     package="com.example.kunal.studymanager">
 
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,7 +39,8 @@
             android:name=".ShowTask"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".SchedulerNext" />
-        <activity android:name=".AddMultipleSubject"></activity>
+        <activity android:name=".AddMultipleSubject" />
+        <activity android:name=".ShowSchedule"></activity>
     </application>
 
 </manifest>

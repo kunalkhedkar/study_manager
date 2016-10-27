@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class SchedulerNext extends AppCompatActivity {
     private int no_of_sub_day, repetition, totalSubjects, EstimatedScheduleDays, revisionDays;
     private long daysDiff;
-    int Count_Arr_Days[]=new int[totalSubjects];
+    int Count_Arr_Days[] = new int[totalSubjects];
 
     ArrayList<Subject> allSubjects = SubjectManager.getInstance().getAllSubjects();
 
@@ -40,7 +40,7 @@ public class SchedulerNext extends AppCompatActivity {
     }
 
     private void TurnVisibilityON(int i, String SubjectName) {
-        int day=0;
+        int day = 0;
         String BTname = "sub" + Integer.toString(i);
         String TEXTname = "TextSub" + Integer.toString(i);
 
@@ -50,7 +50,7 @@ public class SchedulerNext extends AppCompatActivity {
         int txtid = getResources().getIdentifier(TEXTname, "id", getApplicationContext().getPackageName());
         TextView tx = (TextView) findViewById(txtid);
 
-        day=Count_Arr_Days[i-1];
+        day = Count_Arr_Days[i - 1];
         bt.setText(Integer.toString(day));
         bt.setVisibility(View.VISIBLE);
 
@@ -67,8 +67,7 @@ public class SchedulerNext extends AppCompatActivity {
         totalSubjects = bundle.getInt("totalSubjects");
         daysDiff = bundle.getLong("daysDiff");
         revisionDays = bundle.getInt("revisionDays");
-        Count_Arr_Days= getIntent().getIntArrayExtra("Count_array");
-
+        Count_Arr_Days = getIntent().getIntArrayExtra("Count_array");
 
 
     }

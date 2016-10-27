@@ -45,4 +45,9 @@ public class MainActivity extends AppCompatActivity {
         Intent showMarkIntent = new Intent(getApplicationContext(), ShowMark.class);
         startActivity(showMarkIntent);
     }
+
+    public void onClickshow(View view) {
+        Intent showScheduleIntent = new Intent(getApplicationContext(), ShowSchedule.class);
+        startActivity(showScheduleIntent);
+    }
 }

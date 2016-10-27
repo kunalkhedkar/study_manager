@@ -99,6 +99,9 @@ public class ScheduleData extends AppCompatActivity {
         totalSubjects = Integer.parseInt(TotalSubjects.getSelectedItem().toString());
         revDays = Integer.parseInt(revisionDays.getText().toString());
 
+        BasicScheduleMembers data=new BasicScheduleMembers(Long.toString(start),Long.toString(end),daysDiff,totalSubjects,no_of_sub_day);
+        BasicScheduleMembersManager.getInstance().addData(data);
+
         Intent addMultipleSubjectIntent = new Intent(getApplicationContext(), AddMultipleSubject.class);
         addMultipleSubjectIntent.putExtra("daysDiff", daysDiff);
         addMultipleSubjectIntent.putExtra("totalSubjects", totalSubjects);
