@@ -13,9 +13,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class AddMark extends AppCompatActivity {
+    DatabaseHelper mydb;
 
-    Spinner choose_subject;
-    EditText testName, scoredMarks, outOfMarks;
+
+    EditText testName, scoredMarks, outOfMarks,choose_subject;
 
 
     String TAG = "MainActivity";
@@ -29,15 +30,7 @@ public class AddMark extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mark);
-
-
-        choose_subject = (Spinner) findViewById(R.id.choose_subject);
-        String SUBJECTLIST[] = {"JAVA", "DS", "UNP", "DAA", "PPL"};
-
-        ArrayAdapter a = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, SUBJECTLIST);
-        choose_subject.setAdapter(a);
-        str_choose_subject = choose_subject.getSelectedItem().toString();
-
+        mydb=new DatabaseHelper(this);
     }
 
 
@@ -45,29 +38,21 @@ public class AddMark extends AppCompatActivity {
         testName = (EditText) findViewById(R.id.test_name);
         scoredMarks = (EditText) findViewById(R.id.scoredMark);
         outOfMarks = (EditText) findViewById(R.id.outofMark);
-
+        choose_subject = (EditText) findViewById(R.id.choose_subject);
 
         str_testName = testName.getText().toString();
         val_scoredMarks = Integer.parseInt(scoredMarks.getText().toString());
         val_outOfMarks = Integer.parseInt(outOfMarks.getText().toString());
+        str_choose_subject=choose_subject.getText().toString();
 
-        Mark mk = new Mark(str_choose_subject, str_testName, val_scoredMarks, val_outOfMarks);
-
-        MarkManager.getInstance().addMark(mk);
-
+        mydb.insertData_MARKS(str_choose_subject, str_testName, val_scoredMarks, val_outOfMarks);
 
         Intent showMarkIntent = new Intent(getApplicationContext(), ShowMark.class);
         startActivity(showMarkIntent);
-
-        Log.d(TAG, "subject  :  " + str_choose_subject + "  scored marks  :  " + val_scoredMarks + " out of marks   :  " + val_outOfMarks);
-        Toast.makeText(AddMark.this, "Data Accepted", Toast.LENGTH_SHORT).show();
-
     }
 
 
     public void onClickCancel(View view) {
-        Toast.makeText(AddMark.this, "Cancel", Toast.LENGTH_SHORT).show();
-
         Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(mainActivityIntent);
     }

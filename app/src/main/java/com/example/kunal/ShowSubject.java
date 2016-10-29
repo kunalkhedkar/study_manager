@@ -1,6 +1,7 @@
 package com.example.kunal;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,16 +11,14 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.kunal.studymanager.AddSubject;
+import com.example.kunal.studymanager.DatabaseHelper;
 import com.example.kunal.studymanager.R;
-import com.example.kunal.studymanager.Subject;
-import com.example.kunal.studymanager.SubjectManager;
-import com.example.kunal.studymanager.Task;
-import com.example.kunal.studymanager.TaskManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShowSubject extends AppCompatActivity {
+    DatabaseHelper mydb;
 
     FloatingActionButton fab;
     TextView tempDisplay;
@@ -32,11 +31,13 @@ public class ShowSubject extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_subject);
         setTitle("Subjects");
+        mydb = new DatabaseHelper(this);
+
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
         fab = (FloatingActionButton) findViewById(R.id.fab_add);
 
-        //init();
+
 
         ArrayList<HashMap<String, String>> data = populateData();
 
@@ -51,33 +52,26 @@ public class ShowSubject extends AppCompatActivity {
 
         String subject_name;
         int chpt;
-        ArrayList<Subject> allSubjects = SubjectManager.getInstance().getAllSubjects();
-        for (Subject sub : allSubjects) {
-            subject_name = sub.getName();
-            chpt = sub.getTotalChapters();
 
+        //get data
+        Cursor result = mydb.getData_SUBJECT();
 
-            HashMap<String, String> subjectDetail = new HashMap<>();
-            subjectDetail.put("SubjectName", subject_name);
-            subjectDetail.put("Chpt", chpt + "");
-            detail.add(subjectDetail);
+        if(result.getCount()==0) {
 
+        }
+        else {
+            while (result.moveToNext()) {
+                subject_name = result.getString(0);
+                chpt = Integer.parseInt(result.getString(1));
+
+                HashMap<String, String> subjectDetail = new HashMap<>();
+                subjectDetail.put("SubjectName", subject_name);
+                subjectDetail.put("Chpt", chpt + "");
+                detail.add(subjectDetail);
+            }
         }
 
         return detail;
-    }
-
-    private void init() {
-        String sub_name;
-        int chpt;
-
-        ArrayList<Subject> allSubjects = SubjectManager.getInstance().getAllSubjects();
-
-        for (Subject sub : allSubjects) {
-            sub_name = sub.getName();
-            chpt = sub.getTotalChapters();
-            tempDisplay.append(sub_name + " : " + chpt + "\n");
-        }
     }
 
     public void onClickAdd(View view) {

@@ -6,6 +6,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
@@ -25,6 +26,8 @@ import java.util.ListIterator;
 import java.util.TimeZone;
 
 public class AddMultipleSubject extends AppCompatActivity {
+    DatabaseHelper mydb;
+
     private static final boolean TODO = false;
     private static final String TAG = "AddMultipleSubject";
     private int no_of_sub_day, repetition, totalSubjects, revisionDays;
@@ -40,9 +43,12 @@ public class AddMultipleSubject extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_multiple_subject);
         setTitle("Add Subjects");
+        mydb = new DatabaseHelper(this);
+
+
         LAST_DATE_OF_SCHEDULE.clear();
 
-        getPreviousActivityData();
+        getScheduleData();
 
         designMyView();
 
@@ -56,7 +62,6 @@ public class AddMultipleSubject extends AppCompatActivity {
         }
 
     }
-
 
     private void TurnVisibilityON(int i) {
 
@@ -74,18 +79,27 @@ public class AddMultipleSubject extends AppCompatActivity {
     }
 
 
-    private void getPreviousActivityData() {
-        Bundle bundle = getIntent().getExtras();
+    private void getScheduleData() {
 
-        no_of_sub_day = bundle.getInt("no_of_sub_day");
-        repetition = bundle.getInt("repetition");
-        totalSubjects = bundle.getInt("totalSubjects");
-        daysDiff = bundle.getLong("daysDiff");
-        revisionDays = bundle.getInt("revisionDays");
-        long date = bundle.getLong("lastDateSchedule");
-        LAST_DATE_OF_SCHEDULE.setTimeInMillis(date);
-        Count_Arr_Days = new int[totalSubjects];
-        end1.setTimeInMillis(date);
+        Cursor result = mydb.getData_SCHEDULE();
+        if (result.getCount() == 0) {
+            Toast.makeText(AddMultipleSubject.this, "no data found", Toast.LENGTH_SHORT).show();
+        } else {
+            while (result.moveToNext()) {
+                long date = Long.parseLong(result.getString(1));
+                daysDiff = Long.parseLong(result.getString(2));
+                totalSubjects = Integer.parseInt(result.getString(3));
+                no_of_sub_day = Integer.parseInt(result.getString(4));
+                repetition = Integer.parseInt(result.getString(5));
+                revisionDays = Integer.parseInt(result.getString(6));
+
+                LAST_DATE_OF_SCHEDULE.setTimeInMillis(date);
+                Count_Arr_Days = new int[totalSubjects];
+                end1.setTimeInMillis(date);
+                break;
+            }
+
+        }
 
 
     }
@@ -98,7 +112,7 @@ public class AddMultipleSubject extends AppCompatActivity {
 
 
         getDataInput_fromScreen();
-
+        fill_sub_arraylist();
 
         BuildSchedule();
 
@@ -110,14 +124,20 @@ public class AddMultipleSubject extends AppCompatActivity {
         }
 
         Intent scheduleNext = new Intent(getApplicationContext(), SchedulerNext.class);
-        scheduleNext.putExtra("daysDiff", daysDiff);
-        scheduleNext.putExtra("totalSubjects", totalSubjects);
-        scheduleNext.putExtra("no_of_sub_day", no_of_sub_day);
-        scheduleNext.putExtra("repetition", repetition);
-        scheduleNext.putExtra("revisionDays", revisionDays);
-        scheduleNext.putExtra("Count_array",Count_Arr_Days);
+        scheduleNext.putExtra("Count_array", Count_Arr_Days);
 
         startActivity(scheduleNext);
+    }
+
+    private void fill_sub_arraylist() {
+
+        Cursor result = mydb.getData_SUBJECT();
+        if (result.getCount() == 0) {
+
+        } else {
+            while (result.moveToNext())
+                subjectArrayList.add(result.getString(0));
+        }
     }
 
     private void getDataInput_fromScreen() {
@@ -135,8 +155,12 @@ public class AddMultipleSubject extends AppCompatActivity {
             EditText chpted = (EditText) findViewById(chptid);
             int chpt = Integer.parseInt(chpted.getText().toString());
 
-            Subject sub = new Subject(sub_name, chpt);
-            SubjectManager.getInstance().addSubject(sub);
+
+            boolean isInserted = mydb.insertData_SUBJECT(sub_name, chpt);
+            if (isInserted == false)
+                Toast.makeText(AddMultipleSubject.this, "Fail to add subject : " + sub_name, Toast.LENGTH_SHORT).show();
+
+
 
         }
     }
@@ -161,17 +185,14 @@ public class AddMultipleSubject extends AppCompatActivity {
         if (parts.length == 2) {
             IncrementCounter(parts[0]);
             IncrementCounter(parts[1]);
-        }
-        else if (parts.length == 3) {
+        } else if (parts.length == 3) {
             IncrementCounter(parts[0]);
             IncrementCounter(parts[1]);
             IncrementCounter(parts[2]);
 
-        }
-        else if(!title.equals("Revision") && parts.length==1){
+        } else if (!title.equals("Revision") && parts.length == 1) {
             IncrementCounter(title);
         }
-
 
 
     }
@@ -245,136 +266,133 @@ public class AddMultipleSubject extends AppCompatActivity {
     public void BuildSchedule() {
 
 
-        ArrayList<Subject> allSubjects = SubjectManager.getInstance().getAllSubjects();
-        for (Subject sub : allSubjects) {
-            subjectArrayList.add(sub.getName());
-        }
 
 
-        Calendar start = Calendar.getInstance();
-        Calendar end = LAST_DATE_OF_SCHEDULE;
-        // minus revison days
-        end.add(Calendar.DATE, -(revisionDays-1));
-        long TimeInMillis = 0;
+            Calendar start = Calendar.getInstance();
+            Calendar end = LAST_DATE_OF_SCHEDULE;
+            // minus revison days
+            end.add(Calendar.DATE, -(revisionDays - 1));
+            long TimeInMillis = 0;
 
-        ListIterator<String> listIter = subjectArrayList.listIterator();
-        String s1 = null, s2 = null, s3 = null, str = null;
+            ListIterator<String> listIter = subjectArrayList.listIterator();
+            String s1 = null, s2 = null, s3 = null, str = null;
 
 
-        for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
+            for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
 
-            if (no_of_sub_day == 1) {
+                if (no_of_sub_day == 1) {
 
-                if (listIter.hasNext()) {
-                    str = listIter.next();
-                } else {
-                    listIter = subjectArrayList.listIterator();
-                    str = listIter.next();
+                    if (listIter.hasNext()) {
+                        str = listIter.next();
+                    } else {
+                        listIter = subjectArrayList.listIterator();
+                        str = listIter.next();
+                    }
+
                 }
 
-            }
+                if (no_of_sub_day == 2) {
 
-            if (no_of_sub_day == 2) {
+                    if (listIter.hasNext()) {
+                        s1 = listIter.next();
+                    } else {
+                        listIter = subjectArrayList.listIterator();
+                        s1 = listIter.next();
+                    }
 
-                if (listIter.hasNext()) {
-                    s1 = listIter.next();
-                } else {
-                    listIter = subjectArrayList.listIterator();
-                    s1 = listIter.next();
-                }
+                    if (listIter.hasNext()) {
+                        s2 = listIter.next();
+                    } else {
+                        listIter = subjectArrayList.listIterator();
+                        s2 = listIter.next();
+                    }
 
-                if (listIter.hasNext()) {
-                    s2 = listIter.next();
-                } else {
-                    listIter = subjectArrayList.listIterator();
-                    s2 = listIter.next();
-                }
+                    str = s1 + "_" + s2;
 
-                str = s1 + "_" + s2;
-
-            }
-
-
-            if (no_of_sub_day == 3) {
-
-                if (listIter.hasNext()) {
-                    s1 = listIter.next();
-                } else {
-                    listIter = subjectArrayList.listIterator();
-                    s1 = listIter.next();
-                }
-
-                if (listIter.hasNext()) {
-                    s2 = listIter.next();
-                } else {
-                    listIter = subjectArrayList.listIterator();
-                    s2 = listIter.next();
-                }
-
-                if (listIter.hasNext()) {
-                    s3 = listIter.next();
-                } else {
-                    listIter = subjectArrayList.listIterator();
-                    s3 = listIter.next();
                 }
 
 
-                // repetitions
+                if (no_of_sub_day == 3) {
+
+                    if (listIter.hasNext()) {
+                        s1 = listIter.next();
+                    } else {
+                        listIter = subjectArrayList.listIterator();
+                        s1 = listIter.next();
+                    }
+
+                    if (listIter.hasNext()) {
+                        s2 = listIter.next();
+                    } else {
+                        listIter = subjectArrayList.listIterator();
+                        s2 = listIter.next();
+                    }
+
+                    if (listIter.hasNext()) {
+                        s3 = listIter.next();
+                    } else {
+                        listIter = subjectArrayList.listIterator();
+                        s3 = listIter.next();
+                    }
 
 
-                str = s1 + "_" + s2 + "_" + s3;
-            }
-
-            TimeInMillis = date.getTime();
-            if (repetition == 1) {
-                addEvent(str, TimeInMillis);
-
-            } else if (repetition == 2) {
-
-                // repeat 1
-                addEvent(str, TimeInMillis);
+                    // repetitions
 
 
-                //repeat 2
-                start.add(Calendar.DATE, 1);
-                date = start.getTime();
+                    str = s1 + "_" + s2 + "_" + s3;
+                }
+
                 TimeInMillis = date.getTime();
-                addEvent(str, TimeInMillis);
+                if (repetition == 1) {
+                    addEvent(str, TimeInMillis);
+
+                } else if (repetition == 2) {
+
+                    // repeat 1
+                    addEvent(str, TimeInMillis);
 
 
-            } else {
-
-                // repeat 1
-                addEvent(str, TimeInMillis);
-
-
-                //repeat 2
-                start.add(Calendar.DATE, 1);
-                date = start.getTime();
-                TimeInMillis = date.getTime();
-                addEvent(str, TimeInMillis);
+                    //repeat 2
+                    start.add(Calendar.DATE, 1);
+                    date = start.getTime();
+                    TimeInMillis = date.getTime();
+                    addEvent(str, TimeInMillis);
 
 
-                //repeat 3
-                start.add(Calendar.DATE, 1);
-                date = start.getTime();
-                TimeInMillis = date.getTime();
-                addEvent(str, TimeInMillis);
+                } else {
+
+                    // repeat 1
+                    addEvent(str, TimeInMillis);
+
+
+                    //repeat 2
+                    start.add(Calendar.DATE, 1);
+                    date = start.getTime();
+                    TimeInMillis = date.getTime();
+                    addEvent(str, TimeInMillis);
+
+
+                    //repeat 3
+                    start.add(Calendar.DATE, 1);
+                    date = start.getTime();
+                    TimeInMillis = date.getTime();
+                    addEvent(str, TimeInMillis);
+
+                }
+
 
             }
 
+            end1.add(Calendar.DATE, 2);
+            start = end;
+            start.add(Calendar.DATE, 1);
+
+
+            for (Date date = start.getTime(); start.before(end1); start.add(Calendar.DATE, 1), date = start.getTime()) {
+                TimeInMillis = date.getTime();
+                addEvent("Revision", TimeInMillis);
+            }
 
         }
-
-        end1.add(Calendar.DATE,2);
-        start=end;
-        start.add(Calendar.DATE,1);
-
-
-        for (Date date = start.getTime(); start.before(end1); start.add(Calendar.DATE, 1), date = start.getTime()) {
-            TimeInMillis = date.getTime();
-            addEvent("Revision",TimeInMillis);
-        }
-
     }
-}
+

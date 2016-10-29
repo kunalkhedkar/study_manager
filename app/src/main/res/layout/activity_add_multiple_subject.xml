@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/subject1"
                     android:hint="Subject1"
@@ -30,7 +31,7 @@
                     android:layout_height="wrap_content" />
 
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/chpt1"
                     android:hint="Chpt"
@@ -46,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/subject2"
                     android:hint="Subject2"
@@ -54,7 +55,7 @@
                     android:layout_height="wrap_content" />
 
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/chpt2"
                     android:hint="Chpt"
@@ -70,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/subject3"
                     android:hint="Subject3"
@@ -78,7 +79,7 @@
                     android:layout_height="wrap_content" />
 
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/chpt3"
                     android:hint="Chpt"
@@ -94,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/subject4"
                     android:hint="Subject4"
@@ -102,7 +103,7 @@
                     android:layout_height="wrap_content" />
 
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/chpt4"
                     android:hint="Chpt"
@@ -119,6 +120,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/subject5"
                     android:hint="Subject5"
@@ -127,6 +129,7 @@
 
 
                 <EditText
+                    android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/chpt5"
                     android:hint="Chpt"
@@ -142,7 +145,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <EditText
+
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/subject"
                     android:hint="Subject6"
@@ -150,7 +154,7 @@
                     android:layout_height="wrap_content" />
 
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/chpt6"
                     android:hint="Chpt"
@@ -166,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/subject7"
                     android:hint="Subject7"
@@ -174,7 +178,7 @@
                     android:layout_height="wrap_content" />
 
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/chpt7"
                     android:hint="Chpt"
@@ -190,7 +194,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/subject8"
                     android:hint="Subject8"
@@ -198,7 +202,7 @@
                     android:layout_height="wrap_content" />
 
 
-                <EditText
+                <EditText android:maxLines="1"
                     android:visibility="gone"
                     android:id="@+id/chpt8"
                     android:hint="Chpt"

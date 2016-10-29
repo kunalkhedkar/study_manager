@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class ShowSchedule extends AppCompatActivity {
+    DatabaseHelper mydb;
 
     int TotalSubject = 3, noOfSubPerDay = 2;
     TextView labelsub2, labelsub3;
@@ -39,13 +40,19 @@ public class ShowSchedule extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_schedule);
         setTitle("Your Schedule");
+        mydb =new DatabaseHelper(this);
 
-        ArrayList<BasicScheduleMembers> dataMembers = BasicScheduleMembersManager.getInstance().getData();
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
-        for (BasicScheduleMembers bs : dataMembers) {
-            TotalSubject = bs.gettotalSubject();
-            noOfSubPerDay = bs.getNoOfSubPerDays();
+        Cursor result=mydb.getData_SCHEDULE();
+        if (result.getCount()!=0){
+            while (result.moveToNext()){
+                TotalSubject=Integer.parseInt(result.getString(3));
+                noOfSubPerDay=Integer.parseInt(result.getString(4));
+                break;
+            }
         }
+
 
         ArrayList<HashMap<String, String>> data = populateData();
 
@@ -118,9 +125,11 @@ public class ShowSchedule extends AppCompatActivity {
 
             if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
 
-                if(noOfSubPerDay==1)
+                if(noOfSubPerDay==1 || TextUtils.equals(nameOfEvent,"Revision"))
                 {
                     s1=nameOfEvent;
+                    s2="-";
+                    s3="-";
 
 
                 }
@@ -129,6 +138,7 @@ public class ShowSchedule extends AppCompatActivity {
                     if (parts.length == 2) {
                         s1=parts[0];
                         s2=parts[1];
+                        s3="-";
                     }
                 }
                 else if(noOfSubPerDay==3){
@@ -139,6 +149,7 @@ public class ShowSchedule extends AppCompatActivity {
                         s3=parts[2];
                     }
                 }
+
 
 
                 HashMap<String, String> tasksDetail = new HashMap<>();

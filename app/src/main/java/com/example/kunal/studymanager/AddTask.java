@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AddTask extends AppCompatActivity {
+    DatabaseHelper mydb;
 
     CheckBox checkBox = null;
 
@@ -48,6 +49,8 @@ public class AddTask extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mydb=new DatabaseHelper(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
         task_display_date = (EditText) findViewById(R.id.TaskDatePick);
@@ -141,8 +144,8 @@ public class AddTask extends AppCompatActivity {
             alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
             //alarmManager.set(AlarmManager.RTC_WAKEUP, REMAINDER_CALENDAR_DATE.getTimeInMillis(), alarmIntent);
 
-            Task task = new Task(task_name.getText().toString(), str_task_date, str_task_time);
-            TaskManager.getInstance().addTask(task);
+            mydb.insertData_TASK(task_name.getText().toString(), str_task_date, str_task_time);
+
 
             Toast.makeText(AddTask.this, "Reminder is set", Toast.LENGTH_SHORT).show();
             Intent showTaskIntent = new Intent(getApplicationContext(), ShowTask.class);

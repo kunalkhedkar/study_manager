@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class AddExam extends AppCompatActivity {
-
+DatabaseHelper mydb;
 
     Calendar cal = Calendar.getInstance();
     EditText ExamDate, Subject, ExamTime, Title;
@@ -24,7 +24,7 @@ public class AddExam extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_exam);
-
+mydb=new DatabaseHelper(this);
 
         ExamDate = (EditText) findViewById(R.id.ExamDatePick);
         Subject = (EditText) findViewById(R.id.SubjectName);
@@ -81,11 +81,11 @@ public class AddExam extends AppCompatActivity {
         exam_title = Title.getText().toString();
         subject = Subject.getText().toString();
 
-        Exam exam = new Exam(exam_title, subject, str_exam_date, str_exam_time);
-        ExamManager.getInstance().addExam(exam);
+        mydb.insertData_EXAM(exam_title, subject, str_exam_date,str_exam_time);
+
         Intent showExamIntent = new Intent(getApplicationContext(), ShowExam.class);
         startActivity(showExamIntent);
-        Toast.makeText(AddExam.this, "done", Toast.LENGTH_SHORT).show();
+
     }
 
 

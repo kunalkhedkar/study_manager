@@ -14,6 +14,7 @@
         android:textSize="20sp" />
 
     <EditText
+        android:maxLines="1"
         android:id="@+id/SubjectName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,6 +29,7 @@
         android:textSize="20sp" />
 
     <EditText
+        android:maxLines="1"
         android:id="@+id/Chapters"
         android:layout_width="250dp"
         android:layout_height="wrap_content"

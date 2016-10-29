@@ -1,6 +1,7 @@
 package com.example.kunal.studymanager;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShowTask extends AppCompatActivity {
+DatabaseHelper mydb;
 
     FloatingActionButton fab;
     TextView tempDisplay;
@@ -25,6 +27,8 @@ public class ShowTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_task);
         setTitle("Task");
+        mydb = new DatabaseHelper(this);
+
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
 
@@ -45,40 +49,30 @@ public class ShowTask extends AppCompatActivity {
         ArrayList<HashMap<String, String>> detail = new ArrayList<>();
 
         String task_name, task_date, task_time;
-        ArrayList<Task> allTAsks = TaskManager.getInstance().getAllTasks();
+        Cursor result = mydb.getData_TASK();
 
-        for (Task tk : allTAsks) {
-            task_name = tk.getTaskName();
-            task_date = tk.getTaskDate();
-            task_time = tk.getTaskTime();
-
-
-            HashMap<String, String> tasksDetail = new HashMap<>();
-            tasksDetail.put("TaskName", task_name);
-            tasksDetail.put("TaskDate", task_date);
-            tasksDetail.put("TaskTime", task_time);
-
-
-            detail.add(tasksDetail);
+        if(result.getCount()==0) {
 
         }
+        else {
+            while (result.moveToNext()) {
+                task_name = result.getString(0);
+                task_date = result.getString(1);
+                task_time = result.getString(2);
 
+                HashMap<String, String> tasksDetail = new HashMap<>();
+                tasksDetail.put("TaskName", task_name);
+                tasksDetail.put("TaskDate", task_date);
+                tasksDetail.put("TaskTime", task_time);
+
+
+                detail.add(tasksDetail);
+
+            }
+        }
         return detail;
     }
 
-
-    private void init() {
-        String task_name, task_date, task_time;
-        ArrayList<Task> allTasks = TaskManager.getInstance().getAllTasks();
-
-        for (Task ts : allTasks) {
-            task_name = ts.getTaskName();
-            task_date = ts.getTaskDate();
-            task_time = ts.getTaskTime();
-
-            tempDisplay.append(task_name + " " + task_date + " " + task_time + "\n");
-        }
-    }
 
     public void onClickAdd(View view) {
 

@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduleData extends AppCompatActivity {
+    DatabaseHelper mydb;
 
     Calendar cal = Calendar.getInstance();
     Calendar TARGET_CALENDAR_DATE = Calendar.getInstance();
@@ -28,6 +29,7 @@ public class ScheduleData extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_data);
+        mydb=new DatabaseHelper(this);
 
         Repetition = (Spinner) findViewById(R.id.Repetition);
         NoOfSubDay = (Spinner) findViewById(R.id.NoOfSubDay);
@@ -99,17 +101,10 @@ public class ScheduleData extends AppCompatActivity {
         totalSubjects = Integer.parseInt(TotalSubjects.getSelectedItem().toString());
         revDays = Integer.parseInt(revisionDays.getText().toString());
 
-        BasicScheduleMembers data=new BasicScheduleMembers(Long.toString(start),Long.toString(end),daysDiff,totalSubjects,no_of_sub_day);
-        BasicScheduleMembersManager.getInstance().addData(data);
+
+        mydb.insertData_SCHEDULE(Long.toString(start),Long.toString(end),daysDiff,totalSubjects,no_of_sub_day,repetition,revDays);
 
         Intent addMultipleSubjectIntent = new Intent(getApplicationContext(), AddMultipleSubject.class);
-        addMultipleSubjectIntent.putExtra("daysDiff", daysDiff);
-        addMultipleSubjectIntent.putExtra("totalSubjects", totalSubjects);
-        addMultipleSubjectIntent.putExtra("no_of_sub_day", no_of_sub_day);
-        addMultipleSubjectIntent.putExtra("repetition", repetition);
-        addMultipleSubjectIntent.putExtra("revisionDays", revDays);
-        addMultipleSubjectIntent.putExtra("lastDateSchedule",TARGET_CALENDAR_DATE.getTimeInMillis());
-
         startActivity(addMultipleSubjectIntent);
 
 

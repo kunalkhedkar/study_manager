@@ -40,7 +40,10 @@
             android:parentActivityName=".MainActivity" />
         <activity android:name=".SchedulerNext" />
         <activity android:name=".AddMultipleSubject" />
-        <activity android:name=".ShowSchedule"></activity>
+        <activity android:name=".ShowSchedule"
+            android:parentActivityName=".MainActivity" >
+
+        </activity>
     </application>
 
 </manifest>

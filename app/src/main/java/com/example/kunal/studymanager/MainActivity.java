@@ -1,24 +1,41 @@
 package com.example.kunal.studymanager;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.kunal.ShowSubject;
 
 public class MainActivity extends AppCompatActivity {
+DatabaseHelper mydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mydb=new DatabaseHelper(this);
+
+
+        //b1.setBackgroundColor(Color.parseColor("#01ff90"));
     }
 
 
     public void onClickSchedule(View view) {
-        Intent scheduleData = new Intent(getApplicationContext(), ScheduleData.class);
-        startActivity(scheduleData);
+
+        Cursor result=mydb.getData_SCHEDULE();
+        if(result.getCount()==0) {
+            Intent scheduleData = new Intent(getApplicationContext(), ScheduleData.class);
+            startActivity(scheduleData);
+        }
+        else
+        {
+            Intent showScheduleIntent = new Intent(getApplicationContext(), ShowSchedule.class);
+            startActivity(showScheduleIntent);
+        }
 
     }
 

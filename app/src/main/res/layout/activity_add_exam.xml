@@ -15,6 +15,7 @@
 
     <EditText
         android:id="@+id/ExamName"
+        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -30,6 +31,7 @@
 
     <EditText
         android:id="@+id/SubjectName"
+        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -89,7 +91,6 @@
                 android:onClick="ExamTime" />
         </LinearLayout>
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"

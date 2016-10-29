@@ -1,21 +1,24 @@
 package com.example.kunal.studymanager;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class SchedulerNext extends AppCompatActivity {
+    DatabaseHelper mydb;
     private int no_of_sub_day, repetition, totalSubjects, EstimatedScheduleDays, revisionDays;
     private long daysDiff;
     int Count_Arr_Days[] = new int[totalSubjects];
 
-    ArrayList<Subject> allSubjects = SubjectManager.getInstance().getAllSubjects();
+    ArrayList<String> allSubjects = new ArrayList<>();
 
     TextView textViewsub1, textViewsub2, textViewsub3, textViewsub4, textViewsub5, textViewsub6, textViewsub7, textViewsub8;
     Button sub1, sub2, sub3, sub4, sub5, sub6, sub7, sub8;
@@ -25,15 +28,28 @@ public class SchedulerNext extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheduler_next);
+        mydb = new DatabaseHelper(this);
 
-        getPreviousActivityData();
+        fillSubjectArrayList();
+        getScheduleData();
         designMyView();
+    }
+
+    private void fillSubjectArrayList() {
+
+        Cursor result = mydb.getData_SUBJECT();
+        if (result.getCount() == 0) {
+
+        } else {
+            while (result.moveToNext())
+                allSubjects.add(result.getString(0));
+        }
     }
 
     private void designMyView() {
 
         for (int i = 1; i <= totalSubjects; i++) {
-            String SubjectName = allSubjects.get(i - 1).getName();
+            String SubjectName = allSubjects.get(i - 1);
             TurnVisibilityON(i, SubjectName);
         }
 
@@ -59,21 +75,29 @@ public class SchedulerNext extends AppCompatActivity {
     }
 
 
-    private void getPreviousActivityData() {
+    private void getScheduleData() {
+
         Bundle bundle = getIntent().getExtras();
 
-        no_of_sub_day = bundle.getInt("no_of_sub_day");
-        repetition = bundle.getInt("repetition");
-        totalSubjects = bundle.getInt("totalSubjects");
-        daysDiff = bundle.getLong("daysDiff");
-        revisionDays = bundle.getInt("revisionDays");
-        Count_Arr_Days = getIntent().getIntArrayExtra("Count_array");
+        Cursor result = mydb.getData_SCHEDULE();
+        if (result.getCount() == 0) {
+            Toast.makeText(SchedulerNext.this, "No data found", Toast.LENGTH_SHORT).show();
+        } else {
+            while (result.moveToNext()) {
 
-
+                daysDiff = Long.parseLong(result.getString(2));
+                totalSubjects = Integer.parseInt(result.getString(3));
+                no_of_sub_day = Integer.parseInt(result.getString(4));
+                repetition = Integer.parseInt(result.getString(5));
+                revisionDays = Integer.parseInt(result.getString(6));
+                revisionDays = bundle.getInt("revisionDays");
+                Count_Arr_Days = getIntent().getIntArrayExtra("Count_array");
+            }
+        }
     }
 
-    public void addSchedule(View view) {
-        Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(mainActivityIntent);
+        public void addSchedule (View view){
+            Intent showScheduleIntent = new Intent(getApplicationContext(), ShowSchedule.class);
+            startActivity(showScheduleIntent);
+        }
     }
-}
