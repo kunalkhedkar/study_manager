@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.kunal.studymanager">
+    package="com.example.kunal.studymanager" >
 
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -10,13 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        android:theme="@style/AppTheme" >
+        <activity android:name=".MainActivity" >
         </activity>
         <activity android:name=".ScheduleData" />
         <activity android:name=".AddMark" />
@@ -28,22 +23,41 @@
 
         <activity
             android:name="com.example.kunal.ShowSubject"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".ShowMark"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".ShowExam"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".ShowTask"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".HomeActivity" />
         <activity android:name=".SchedulerNext" />
         <activity android:name=".AddMultipleSubject" />
-        <activity android:name=".ShowSchedule"
-            android:parentActivityName=".MainActivity" >
-
+        <activity
+            android:name=".ShowSchedule"
+            android:parentActivityName=".HomeActivity" >
         </activity>
+
+
+
+
+
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+
+
     </application>
 
 </manifest>
