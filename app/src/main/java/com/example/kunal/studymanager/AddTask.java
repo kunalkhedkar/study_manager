@@ -94,6 +94,7 @@ public class AddTask extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
+            monthOfYear=monthOfYear+1;
             str_task_date = dayOfMonth + "/" + monthOfYear + "/" + year;
             task_display_date.setText(str_task_date);
 

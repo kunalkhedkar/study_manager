@@ -1,16 +1,20 @@
 package com.example.kunal.studymanager;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,16 +30,23 @@ import android.widget.Toast;
 
 import com.example.kunal.ShowSubject;
 
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DatabaseHelper mydb;
 
-    TextView dateshow;
+
+    int TotalSubject = 0, noOfSubPerDay = 0;
+
+    TextView dateshow, today, tomorrow, task, exam;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,20 +67,250 @@ public class HomeActivity extends AppCompatActivity
 
         // my stuff
 
-        dateshow= (TextView) findViewById(R.id.Dateshow);
+        boolean ok = getScheduledata();
+        dateshow = (TextView) findViewById(R.id.Dateshow);
         set_TitleDate();
 
 
+        today = (TextView) findViewById(R.id.today);
+        tomorrow = (TextView) findViewById(R.id.tomorrow);
+        task = (TextView) findViewById(R.id.task);
+        exam = (TextView) findViewById(R.id.exam);
 
+        if (ok)
+            build_home_view();
 
 
     }
+
+    private void build_home_view() {
+
+        set_today();
+        set_tomorrow();
+        try {
+            set_task();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean getScheduledata() {
+        Cursor result = mydb.getData_SCHEDULE();
+        if (result.getCount() != 0) {
+            while (result.moveToNext()) {
+                TotalSubject = Integer.parseInt(result.getString(3));
+                noOfSubPerDay = Integer.parseInt(result.getString(4));
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private void set_today() {
+
+        Calendar calendar = Calendar.getInstance();
+        long endDay = calendar.getTimeInMillis();
+        calendar.add(Calendar.DATE, -1);
+        long startDay = calendar.getTimeInMillis();
+
+
+        String[] projection = new String[]{BaseColumns._ID, CalendarContract.Events.TITLE, CalendarContract.Events.DESCRIPTION, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND, CalendarContract.Events.EVENT_LOCATION};
+        String selection = CalendarContract.Events.DTSTART + " >= ? AND " + CalendarContract.Events.DTSTART + "<= ?";
+        String[] selectionArgs = new String[]{Long.toString(startDay), Long.toString(endDay)};
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Cursor cur = getContentResolver().query(CalendarContract.Events.CONTENT_URI, projection, selection, selectionArgs, null);
+
+        cur.moveToFirst();
+
+
+        String nameOfEvent = (cur.getString(1));
+        String locID = (cur.getString(5));
+        String MYKEY = null;
+        if (locID != null && !TextUtils.equals(locID, "")) {
+            if (locID.contains("_")) {
+
+
+                String[] parts = locID.split("_");
+                if (parts.length == 2) {
+                    MYKEY = parts[0];
+
+                }
+            }
+        }
+
+        if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
+
+            if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
+                today.setText(nameOfEvent);
+
+
+            } else if (noOfSubPerDay == 2) {
+                String[] parts = nameOfEvent.split("_");
+                if (parts.length == 2) {
+                    today.setText(parts[0]);
+                    today.append("\n" + parts[1]);
+
+                }
+            } else if (noOfSubPerDay == 3) {
+                String[] parts = nameOfEvent.split("_");
+                if (parts.length == 3) {
+                    today.setText(parts[0]);
+                    today.append("\n" + parts[1]);
+                    today.append("\n" + parts[2]);
+
+                }
+            }
+
+
+        }
+    }
+
+
+    private void set_tomorrow() {
+
+        Calendar calendar = Calendar.getInstance();
+        long startDay = calendar.getTimeInMillis();
+        calendar.add(Calendar.DATE, 1);
+        long endDay = calendar.getTimeInMillis();
+
+
+        String[] projection = new String[]{BaseColumns._ID, CalendarContract.Events.TITLE, CalendarContract.Events.DESCRIPTION, CalendarContract.Events.DTSTART, CalendarContract.Events.DTEND, CalendarContract.Events.EVENT_LOCATION};
+        String selection = CalendarContract.Events.DTSTART + " >= ? AND " + CalendarContract.Events.DTSTART + "<= ?";
+        String[] selectionArgs = new String[]{Long.toString(startDay), Long.toString(endDay)};
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Cursor cur = getContentResolver().query(CalendarContract.Events.CONTENT_URI, projection, selection, selectionArgs, null);
+
+        cur.moveToFirst();
+
+
+        String nameOfEvent = (cur.getString(1));
+        String locID = (cur.getString(5));
+        String MYKEY = null;
+        if (locID != null && !TextUtils.equals(locID, "")) {
+            if (locID.contains("_")) {
+
+
+                String[] parts = locID.split("_");
+                if (parts.length == 2) {
+                    MYKEY = parts[0];
+
+                }
+            }
+        }
+
+        if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
+
+            if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
+                tomorrow.setText(nameOfEvent);
+
+
+            } else if (noOfSubPerDay == 2) {
+                String[] parts = nameOfEvent.split("_");
+                if (parts.length == 2) {
+                    tomorrow.setText(parts[0]);
+                    tomorrow.append("\n" + parts[1]);
+
+                }
+            } else if (noOfSubPerDay == 3) {
+                String[] parts = nameOfEvent.split("_");
+                if (parts.length == 3) {
+                    tomorrow.setText(parts[0]);
+                    tomorrow.append("\n" + parts[1]);
+                    tomorrow.append("\n" + parts[2]);
+
+                }
+            }
+
+
+        }
+    }
+
+    void set_task() throws ParseException {
+        String str_today, str_tomorrow;
+        str_today = " tasks due today";
+        str_tomorrow = " tasks due tomorrow";
+
+        int int_today = 0, int_tomorrow = 0;
+
+        Calendar cal = Calendar.getInstance();
+        String task_date, current,next;
+        Cursor result = mydb.getData_TASK();
+
+
+
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+        current = format1.format(cal.getTime());
+        cal.add(Calendar.DATE,1);
+        next = format1.format(cal.getTime());
+
+        if (result.getCount() == 0) {
+
+        } else {
+            while (result.moveToNext()) {
+                task_date = result.getString(1);
+
+
+
+                if (myCompare(current, task_date))
+                    int_today++;
+                    if (myCompare(next, task_date))
+                        int_tomorrow++;
+
+
+            }
+        }
+        task.setText(int_today + "" + str_today);
+        task.append("\n" + int_tomorrow + "" + str_tomorrow);
+
+    }
+
+    boolean myCompare(String s1, String s2) {
+
+        if (s1.contains("/") && s2.contains("/")) {
+
+
+            String[] p1 = s1.split("/");
+            String[] p2 = s2.split("/");
+            if (p1.length == 3 && p1.length == 3) {
+
+                if (Integer.parseInt(p1[0]) == Integer.parseInt(p2[0]) &&
+                        Integer.parseInt(p1[1]) == Integer.parseInt(p2[1]) &&
+                        Integer.parseInt(p1[2]) == Integer.parseInt(p2[2])) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
     private void set_TitleDate() {
         dateshow.setBackgroundColor(Color.parseColor("#000000"));
-        Calendar cal=Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
 
         String format = new SimpleDateFormat("EEEE, d MMMM yyyy").format(cal.getTime());
-        format="Today - "+format;
+        format = "Today - " + format;
         dateshow.setText(format);
     }
 

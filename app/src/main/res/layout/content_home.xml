@@ -20,11 +20,19 @@
 
         />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:text="what shld add here"
+        android:textSize="15sp"
+        android:id="@+id/bottom"/>
 
     <!--  4 parts -->
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_below="@+id/Dateshow"
+        android:layout_above="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -50,12 +58,31 @@
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Task"
+                    android:text="Today"
                     android:textSize="30sp"
-
                     android:padding="5sp"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp" />
+                <TextView
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Today's Subjects"
+                    android:textSize="15sp"
+                    android:padding="5sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:id="@+id/today"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Today"
+                    android:textSize="15sp"
+                    android:padding="5sp"
+                    android:layout_marginLeft="10dp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -65,7 +92,27 @@
                 android:orientation="vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#ff8000" />
+                android:background="#192f70" >
+                <TextView
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Task"
+                    android:textSize="30sp"
+                    android:padding="5sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp" />
+                <TextView
+                    android:id="@+id/task"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Task"
+                    android:textSize="15sp"
+                    android:padding="5sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="6dp" />
+                </LinearLayout>
 
         </LinearLayout>
 
@@ -82,7 +129,36 @@
                 android:orientation="vertical"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:background="#336699" />
+                android:background="#20603f" >
+                <TextView
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tomorrow"
+                    android:textSize="30sp"
+                    android:padding="5sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp" />
+                <TextView
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tomorrow's Subjects"
+                    android:textSize="15sp"
+                    android:padding="5sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:id="@+id/tomorrow"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Today"
+                    android:textSize="15sp"
+                    android:padding="5sp"
+                    android:layout_marginLeft="10dp" />
+                </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -91,7 +167,27 @@
                 android:orientation="vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:background="#993366" />
+                android:background="#73264d" >
+                <TextView
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Exams"
+                    android:textSize="30sp"
+                    android:padding="5sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp" />
+                <TextView
+                    android:id="@+id/exam"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Exam"
+                    android:textSize="15sp"
+                    android:padding="5sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp" />
+                </LinearLayout>
 
         </LinearLayout>
 

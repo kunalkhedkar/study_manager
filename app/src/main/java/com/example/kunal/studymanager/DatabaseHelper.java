@@ -175,7 +175,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         //db.execSQL("DROP TABLE IF EXISTS " + SCHEDULE_TABLE);
         db.execSQL("delete from "+ SCHEDULE_TABLE);
-
+        db.execSQL("delete from "+ SUBJECT_TABLE);
     }
 
 
