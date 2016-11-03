@@ -171,6 +171,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    void drop_schedule(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        //db.execSQL("DROP TABLE IF EXISTS " + SCHEDULE_TABLE);
+        db.execSQL("delete from "+ SCHEDULE_TABLE);
+
+    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
