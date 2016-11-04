@@ -92,6 +92,7 @@ public class HomeActivity extends AppCompatActivity
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        set_exam();
     }
 
     private boolean getScheduledata() {
@@ -131,48 +132,50 @@ public class HomeActivity extends AppCompatActivity
         }
         Cursor cur = getContentResolver().query(CalendarContract.Events.CONTENT_URI, projection, selection, selectionArgs, null);
 
-        cur.moveToFirst();
+        if (cur.getCount() > 0) {
+            cur.moveToFirst();
 
 
-        String nameOfEvent = (cur.getString(1));
-        String locID = (cur.getString(5));
-        String MYKEY = null;
-        if (locID != null && !TextUtils.equals(locID, "")) {
-            if (locID.contains("_")) {
+            String nameOfEvent = (cur.getString(1));
+            String locID = (cur.getString(5));
+            String MYKEY = null;
+            if (locID != null && !TextUtils.equals(locID, "")) {
+                if (locID.contains("_")) {
 
 
-                String[] parts = locID.split("_");
-                if (parts.length == 2) {
-                    MYKEY = parts[0];
+                    String[] parts = locID.split("_");
+                    if (parts.length == 2) {
+                        MYKEY = parts[0];
 
-                }
-            }
-        }
-
-        if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
-
-            if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
-                today.setText(nameOfEvent);
-
-
-            } else if (noOfSubPerDay == 2) {
-                String[] parts = nameOfEvent.split("_");
-                if (parts.length == 2) {
-                    today.setText(parts[0]);
-                    today.append("\n" + parts[1]);
-
-                }
-            } else if (noOfSubPerDay == 3) {
-                String[] parts = nameOfEvent.split("_");
-                if (parts.length == 3) {
-                    today.setText(parts[0]);
-                    today.append("\n" + parts[1]);
-                    today.append("\n" + parts[2]);
-
+                    }
                 }
             }
 
+            if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
 
+                if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
+                    today.setText(nameOfEvent);
+
+
+                } else if (noOfSubPerDay == 2) {
+                    String[] parts = nameOfEvent.split("_");
+                    if (parts.length == 2) {
+                        today.setText(parts[0]);
+                        today.append("\n" + parts[1]);
+
+                    }
+                } else if (noOfSubPerDay == 3) {
+                    String[] parts = nameOfEvent.split("_");
+                    if (parts.length == 3) {
+                        today.setText(parts[0]);
+                        today.append("\n" + parts[1]);
+                        today.append("\n" + parts[2]);
+
+                    }
+                }
+
+
+            }
         }
     }
 
@@ -201,48 +204,50 @@ public class HomeActivity extends AppCompatActivity
         }
         Cursor cur = getContentResolver().query(CalendarContract.Events.CONTENT_URI, projection, selection, selectionArgs, null);
 
-        cur.moveToFirst();
+        if (cur.getCount() > 0) {
+            cur.moveToFirst();
 
 
-        String nameOfEvent = (cur.getString(1));
-        String locID = (cur.getString(5));
-        String MYKEY = null;
-        if (locID != null && !TextUtils.equals(locID, "")) {
-            if (locID.contains("_")) {
+            String nameOfEvent = (cur.getString(1));
+            String locID = (cur.getString(5));
+            String MYKEY = null;
+            if (locID != null && !TextUtils.equals(locID, "")) {
+                if (locID.contains("_")) {
 
 
-                String[] parts = locID.split("_");
-                if (parts.length == 2) {
-                    MYKEY = parts[0];
+                    String[] parts = locID.split("_");
+                    if (parts.length == 2) {
+                        MYKEY = parts[0];
 
-                }
-            }
-        }
-
-        if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
-
-            if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
-                tomorrow.setText(nameOfEvent);
-
-
-            } else if (noOfSubPerDay == 2) {
-                String[] parts = nameOfEvent.split("_");
-                if (parts.length == 2) {
-                    tomorrow.setText(parts[0]);
-                    tomorrow.append("\n" + parts[1]);
-
-                }
-            } else if (noOfSubPerDay == 3) {
-                String[] parts = nameOfEvent.split("_");
-                if (parts.length == 3) {
-                    tomorrow.setText(parts[0]);
-                    tomorrow.append("\n" + parts[1]);
-                    tomorrow.append("\n" + parts[2]);
-
+                    }
                 }
             }
 
+            if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
 
+                if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
+                    tomorrow.setText(nameOfEvent);
+
+
+                } else if (noOfSubPerDay == 2) {
+                    String[] parts = nameOfEvent.split("_");
+                    if (parts.length == 2) {
+                        tomorrow.setText(parts[0]);
+                        tomorrow.append("\n" + parts[1]);
+
+                    }
+                } else if (noOfSubPerDay == 3) {
+                    String[] parts = nameOfEvent.split("_");
+                    if (parts.length == 3) {
+                        tomorrow.setText(parts[0]);
+                        tomorrow.append("\n" + parts[1]);
+                        tomorrow.append("\n" + parts[2]);
+
+                    }
+                }
+
+
+            }
         }
     }
 
@@ -254,14 +259,13 @@ public class HomeActivity extends AppCompatActivity
         int int_today = 0, int_tomorrow = 0;
 
         Calendar cal = Calendar.getInstance();
-        String task_date, current,next;
+        String task_date, current, next;
         Cursor result = mydb.getData_TASK();
-
 
 
         SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
         current = format1.format(cal.getTime());
-        cal.add(Calendar.DATE,1);
+        cal.add(Calendar.DATE, 1);
         next = format1.format(cal.getTime());
 
         if (result.getCount() == 0) {
@@ -271,11 +275,10 @@ public class HomeActivity extends AppCompatActivity
                 task_date = result.getString(1);
 
 
-
                 if (myCompare(current, task_date))
                     int_today++;
-                    if (myCompare(next, task_date))
-                        int_tomorrow++;
+                if (myCompare(next, task_date))
+                    int_tomorrow++;
 
 
             }
@@ -304,6 +307,46 @@ public class HomeActivity extends AppCompatActivity
         }
         return false;
     }
+
+
+    void set_exam() {
+        int exam_counter = 0;
+        String exam_date;
+
+        Calendar cmp, end;
+        cmp = Calendar.getInstance();
+        end = Calendar.getInstance();
+        end.add(Calendar.DATE, 7);
+
+
+        Cursor result = mydb.getData_EXAM();
+
+        if (result.getCount() == 0) {
+
+        } else {
+            while (result.moveToNext()) {
+
+                exam_date = result.getString(2);
+
+
+                if (exam_date.contains("/")) {
+                    String[] p1 = exam_date.split("/");
+                    if (p1.length == 3) {
+                        cmp.set(Integer.parseInt(p1[2]), Integer.parseInt(p1[1]), Integer.parseInt(p1[0]));
+                    }
+
+                }
+
+                if (end.before(cmp))
+                    exam_counter++;
+            }
+
+
+        }
+
+        exam.setText(exam_counter + " exams in the next 7 days");
+    }
+
 
     private void set_TitleDate() {
         dateshow.setBackgroundColor(Color.parseColor("#000000"));

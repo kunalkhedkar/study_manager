@@ -97,7 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         contentValues.put("EXAM_NAME", exam_name);
         contentValues.put("SUBJECT_NAME", subject_name);
-        contentValues.put("EXAM_TIME", exam_date);
+        contentValues.put("EXAM_DATE", exam_date);
         contentValues.put("EXAM_TIME", exam_time);
         long result = db.insert(EXAM_TABLE, null, contentValues);
 

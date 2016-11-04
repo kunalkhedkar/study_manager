@@ -45,7 +45,7 @@ mydb=new DatabaseHelper(this);
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
+            monthOfYear=monthOfYear+1;
             str_exam_date = dayOfMonth + "/" + monthOfYear + "/" + year;
             ExamDate.setText(str_exam_date);
         }
