@@ -396,7 +396,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void Rest_Schedule() {
 
-        String nameOfEvent = null, startDates = null, endDates = null, descriptions = null;
+
 
 
         Uri event = Uri.parse("content://com.android.calendar/events");
@@ -404,34 +404,35 @@ public class HomeActivity extends AppCompatActivity
                 event,
                 new String[]{"calendar_id", "title", "eventLocation"}, null,
                 null, null);
-        cursor.moveToFirst();
-        String CNames[] = new String[cursor.getCount()];
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            String CNames[] = new String[cursor.getCount()];
 
-        String MYKEY = null;
-        long MYID = 0;
-        for (int i = 0; i < CNames.length; i++) {
+            String MYKEY = null;
+            long MYID = 0;
+            for (int i = 0; i < CNames.length; i++) {
 
-            nameOfEvent = (cursor.getString(1));
-            String locID = (cursor.getString(2));
+                String locID = (cursor.getString(2));
 
-            CNames[i] = cursor.getString(1);
+                CNames[i] = cursor.getString(1);
 
-            if (locID != null && !TextUtils.equals(locID, "")) {
-                if (locID.contains("_")) {
-                    String[] parts = locID.split("_");
-                    if (parts.length == 2) {
-                        MYKEY = parts[0];
-                        if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
-                            MYID = Long.parseLong(parts[1]);
-                            del(MYID);
+                if (locID != null && !TextUtils.equals(locID, "")) {
+                    if (locID.contains("_")) {
+                        String[] parts = locID.split("_");
+                        if (parts.length == 2) {
+                            MYKEY = parts[0];
+                            if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
+                                MYID = Long.parseLong(parts[1]);
+                                del(MYID);
+                            }
                         }
                     }
                 }
+                cursor.moveToNext();
             }
-            cursor.moveToNext();
+
+
         }
-
-
     }
 
     public void del(long eventID) {

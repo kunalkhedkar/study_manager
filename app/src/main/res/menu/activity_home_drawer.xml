@@ -4,20 +4,25 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_schedule"
+            android:icon="@drawable/ic_schedule"
             android:title="Schedule" />
         <item
             android:id="@+id/nav_subject"
+            android:icon="@drawable/ic_subject"
             android:title="Subject" />
 
         <item
             android:id="@+id/nav_task"
+            android:icon="@drawable/ic_task"
             android:title="Task" />
         <item
             android:id="@+id/nav_exam"
+            android:icon="@drawable/ic_exam"
             android:title="Exam" />
 
         <item
             android:id="@+id/nav_mark"
+            android:icon="@drawable/ic_marks"
             android:title="Marks" />
 
 

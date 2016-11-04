@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.kunal.ShowSubject;
 
-import javax.security.auth.Subject;
+
 
 public class AddSubject extends AppCompatActivity {
     DatabaseHelper mydb;
@@ -32,20 +31,24 @@ public class AddSubject extends AppCompatActivity {
 
 
     public void onClickOk(View view) {
-        subject_name = SubjectName.getText().toString();
-        chapters = Integer.parseInt(Chapters.getText().toString());
+
+        if (isNotEmptyField(SubjectName) && isNotEmptyField(Chapters)) {
+            subject_name = SubjectName.getText().toString();
+            chapters = Integer.parseInt(Chapters.getText().toString());
 
 
-        boolean isInserted=mydb.insertData_SUBJECT(subject_name,chapters);
-        if(isInserted==false)
-            Toast.makeText(AddSubject.this, "Fail to add subject : "+subject_name, Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(AddSubject.this,"Data Inserted", Toast.LENGTH_SHORT).show();
+            boolean isInserted = mydb.insertData_SUBJECT(subject_name, chapters);
+            if (isInserted == false)
+                Toast.makeText(AddSubject.this, "Fail to add subject : " + subject_name, Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(AddSubject.this, "Data Inserted", Toast.LENGTH_SHORT).show();
 
 
-        Intent showSubjectIntent = new Intent(getApplicationContext(), ShowSubject.class);
-        startActivity(showSubjectIntent);
+            Intent showSubjectIntent = new Intent(getApplicationContext(), ShowSubject.class);
+            startActivity(showSubjectIntent);
 
+        } else
+            Toast.makeText(AddSubject.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -53,5 +56,12 @@ public class AddSubject extends AppCompatActivity {
 
         Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(mainActivityIntent);
+    }
+
+    public boolean isNotEmptyField(EditText editText) {
+        if (editText.getText().toString().length() <= 0)
+            return false;
+        else
+            return true;
     }
 }

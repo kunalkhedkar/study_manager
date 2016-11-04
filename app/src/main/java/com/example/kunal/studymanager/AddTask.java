@@ -8,19 +8,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import java.text.DateFormat;
-import java.text.Format;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,19 +33,18 @@ public class AddTask extends AppCompatActivity {
     private AlarmManager alarmManager;
     private PendingIntent alarmIntent;
 
-    private Date TaskDate;
+    //private Date TaskDate;
     private String str_task_date, str_task_time;
 
 
     Calendar TASK_CALENDAR_DATE = Calendar.getInstance();
     Calendar cal = Calendar.getInstance();
     DateFormat format_datetime = DateFormat.getDateInstance();
-    private String TAG = "AddTask";
     private String str_choose_remainder = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mydb=new DatabaseHelper(this);
+        mydb = new DatabaseHelper(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
@@ -94,7 +89,7 @@ public class AddTask extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-            monthOfYear=monthOfYear+1;
+            monthOfYear = monthOfYear + 1;
             str_task_date = dayOfMonth + "/" + monthOfYear + "/" + year;
             task_display_date.setText(str_task_date);
 
@@ -135,26 +130,36 @@ public class AddTask extends AppCompatActivity {
     public void onClickOk(View view) {
 
 
-        if (isEmptyField(task_display_date) || isEmptyField(task_display_time)) {
+        if (isNotEmptyField(task_display_date) || isNotEmptyField(task_display_time)) {
 
-            str_choose_remainder = remainder_day.getSelectedItem().toString();
-            Toast.makeText(AddTask.this, str_choose_remainder + " is selected", Toast.LENGTH_SHORT).show();
-            //setAlarm();
-            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
-            alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-            //alarmManager.set(AlarmManager.RTC_WAKEUP, REMAINDER_CALENDAR_DATE.getTimeInMillis(), alarmIntent);
+            if (checkBox.isChecked()) {
+                set_Remaindar();
+            }
 
-            mydb.insertData_TASK(task_name.getText().toString(), str_task_date, str_task_time);
+            boolean isInserted = mydb.insertData_TASK(task_name.getText().toString(), str_task_date, str_task_time);
+            if (isInserted == false)
+                Toast.makeText(AddTask.this, "Fail to add Exam", Toast.LENGTH_SHORT).show();
 
 
-            Toast.makeText(AddTask.this, "Reminder is set", Toast.LENGTH_SHORT).show();
             Intent showTaskIntent = new Intent(getApplicationContext(), ShowTask.class);
             startActivity(showTaskIntent);
 
-        }
+        } else
+            Toast.makeText(AddTask.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
 
 
+    }
+
+    void set_Remaindar() {
+        str_choose_remainder = remainder_day.getSelectedItem().toString();
+        Toast.makeText(AddTask.this, str_choose_remainder + " is selected", Toast.LENGTH_SHORT).show();
+        //setAlarm();
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, REMAINDER_CALENDAR_DATE.getTimeInMillis(), alarmIntent);
+
+        Toast.makeText(AddTask.this, "Reminder is set", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickCancel(View view) {
@@ -162,7 +167,7 @@ public class AddTask extends AppCompatActivity {
         startActivity(mainActivityIntent);
     }
 
-    private boolean isEmptyField(EditText editText) {
+    public boolean isNotEmptyField(EditText editText) {
         if (editText.getText().toString().length() <= 0)
             return false;
         else

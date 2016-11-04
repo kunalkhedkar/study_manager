@@ -14,11 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,7 +71,9 @@ public class AddMultipleSubject extends AppCompatActivity {
         int chptid = getResources().getIdentifier(EDITchpt, "id", getApplicationContext().getPackageName());
         EditText chpted = (EditText) findViewById(chptid);
 
+        if(subed!=null)
         subed.setVisibility(View.VISIBLE);
+        if(chpted!=null)
         chpted.setVisibility(View.VISIBLE);
     }
 
@@ -142,6 +141,8 @@ public class AddMultipleSubject extends AppCompatActivity {
 
     private void getDataInput_fromScreen() {
 
+        String sub_name = null;
+        int chpt = 0;
         for (int i = 1; i <= totalSubjects; i++) {
 
             String EDITsub = "subject" + Integer.toString(i);
@@ -149,22 +150,34 @@ public class AddMultipleSubject extends AppCompatActivity {
 
             int subid = getResources().getIdentifier(EDITsub, "id", getApplicationContext().getPackageName());
             EditText subed = (EditText) findViewById(subid);
-            String sub_name = subed.getText().toString();
+
+            if (isNotEmptyField(subed))
+                sub_name = subed.getText().toString();
+            else
+                Toast.makeText(AddMultipleSubject.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
 
             int chptid = getResources().getIdentifier(EDITchpt, "id", getApplicationContext().getPackageName());
             EditText chpted = (EditText) findViewById(chptid);
-            int chpt = Integer.parseInt(chpted.getText().toString());
+            if (isNotEmptyField(chpted))
+                chpt = Integer.parseInt(chpted.getText().toString());
+            else
+                Toast.makeText(AddMultipleSubject.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
 
 
             boolean isInserted = mydb.insertData_SUBJECT(sub_name, chpt);
-            if (isInserted == false)
+            if (!isInserted)
                 Toast.makeText(AddMultipleSubject.this, "Fail to add subject : " + sub_name, Toast.LENGTH_SHORT).show();
-
 
 
         }
     }
 
+    public boolean isNotEmptyField(EditText editText) {
+        if (editText.getText().toString().length() <= 0)
+            return false;
+        else
+            return true;
+    }
 
     void IncrementCounter(String temp) {
 
@@ -217,44 +230,48 @@ public class AddMultipleSubject extends AppCompatActivity {
 
         //ContentResolver resolver = getApplicationContext().getContentResolver();
 
+        try {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return TODO;
+            }
+            Uri event = resolver.insert(CalendarContract.Events.CONTENT_URI, values);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return TODO;
-        }
-        Uri event = resolver.insert(CalendarContract.Events.CONTENT_URI, values);
+            String eventIDString = event.getLastPathSegment();
 
-        String eventIDString = event.getLastPathSegment();
-
-        if (eventIDString != null)
-            eventID = Long.parseLong(eventIDString);
-
-
-        Log.d(TAG, "addEvent: " + eventID + " is Added\t" + date);
-
-        // adding event id to
+            if (eventIDString != null)
+                eventID = Long.parseLong(eventIDString);
 
 
-        String locID = "PROJECTEVENTINDENTIFIRE_" + Long.toString(eventID);
+            Log.d(TAG, "addEvent: " + eventID + " is Added\t" + date);
 
-        ContentResolver cr = getContentResolver();
-        //ContentValues values = new ContentValues();
-        Uri updateUri = null;
+            // adding event id to
 
-        values.put(CalendarContract.Events.EVENT_LOCATION, locID);
 
-        updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
-        int rows = getContentResolver().update(updateUri, values, null, null);
+            String locID = "PROJECTEVENTINDENTIFIRE_" + Long.toString(eventID);
 
-        if (eventID != 0)
-            return true;
-        else {
+            ContentResolver cr = getContentResolver();
+            //ContentValues values = new ContentValues();
+            Uri updateUri = null;
+
+            values.put(CalendarContract.Events.EVENT_LOCATION, locID);
+
+            updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID);
+            int rows = getContentResolver().update(updateUri, values, null, null);
+
+            if (eventID != 0)
+                return true;
+            else {
+                Toast.makeText(AddMultipleSubject.this, "Fail to add event", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } catch (Exception e) {
             Toast.makeText(AddMultipleSubject.this, "Fail to add event", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -266,133 +283,137 @@ public class AddMultipleSubject extends AppCompatActivity {
     public void BuildSchedule() {
 
 
+        Calendar start = Calendar.getInstance();
+        Calendar end = LAST_DATE_OF_SCHEDULE;
+        // minus revison days
+        end.add(Calendar.DATE, -(revisionDays - 1));
+        long TimeInMillis = 0;
+
+        ListIterator<String> listIter = subjectArrayList.listIterator();
+        String s1 = null, s2 = null, s3 = null, str = null;
 
 
-            Calendar start = Calendar.getInstance();
-            Calendar end = LAST_DATE_OF_SCHEDULE;
-            // minus revison days
-            end.add(Calendar.DATE, -(revisionDays - 1));
-            long TimeInMillis = 0;
+        for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
 
-            ListIterator<String> listIter = subjectArrayList.listIterator();
-            String s1 = null, s2 = null, s3 = null, str = null;
+            if (no_of_sub_day == 1) {
 
-
-            for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
-
-                if (no_of_sub_day == 1) {
-
-                    if (listIter.hasNext()) {
-                        str = listIter.next();
-                    } else {
-                        listIter = subjectArrayList.listIterator();
-                        str = listIter.next();
-                    }
-
-                }
-
-                if (no_of_sub_day == 2) {
-
-                    if (listIter.hasNext()) {
-                        s1 = listIter.next();
-                    } else {
-                        listIter = subjectArrayList.listIterator();
-                        s1 = listIter.next();
-                    }
-
-                    if (listIter.hasNext()) {
-                        s2 = listIter.next();
-                    } else {
-                        listIter = subjectArrayList.listIterator();
-                        s2 = listIter.next();
-                    }
-
-                    str = s1 + "_" + s2;
-
-                }
-
-
-                if (no_of_sub_day == 3) {
-
-                    if (listIter.hasNext()) {
-                        s1 = listIter.next();
-                    } else {
-                        listIter = subjectArrayList.listIterator();
-                        s1 = listIter.next();
-                    }
-
-                    if (listIter.hasNext()) {
-                        s2 = listIter.next();
-                    } else {
-                        listIter = subjectArrayList.listIterator();
-                        s2 = listIter.next();
-                    }
-
-                    if (listIter.hasNext()) {
-                        s3 = listIter.next();
-                    } else {
-                        listIter = subjectArrayList.listIterator();
-                        s3 = listIter.next();
-                    }
-
-
-                    // repetitions
-
-
-                    str = s1 + "_" + s2 + "_" + s3;
-                }
-
-                TimeInMillis = date.getTime();
-                if (repetition == 1) {
-                    addEvent(str, TimeInMillis);
-
-                } else if (repetition == 2) {
-
-                    // repeat 1
-                    addEvent(str, TimeInMillis);
-
-
-                    //repeat 2
-                    start.add(Calendar.DATE, 1);
-                    date = start.getTime();
-                    TimeInMillis = date.getTime();
-                    addEvent(str, TimeInMillis);
-
-
+                if (listIter.hasNext()) {
+                    str = listIter.next();
                 } else {
+                    listIter = subjectArrayList.listIterator();
+                    str = listIter.next();
+                }
 
-                    // repeat 1
-                    addEvent(str, TimeInMillis);
+            }
+
+            if (no_of_sub_day == 2) {
+
+                if (listIter.hasNext()) {
+                    s1 = listIter.next();
+                } else {
+                    listIter = subjectArrayList.listIterator();
+                    s1 = listIter.next();
+                }
+
+                if (listIter.hasNext()) {
+                    s2 = listIter.next();
+                } else {
+                    listIter = subjectArrayList.listIterator();
+                    s2 = listIter.next();
+                }
+
+                str = s1 + "_" + s2;
+
+            }
 
 
-                    //repeat 2
-                    start.add(Calendar.DATE, 1);
-                    date = start.getTime();
-                    TimeInMillis = date.getTime();
-                    addEvent(str, TimeInMillis);
+            if (no_of_sub_day == 3) {
 
+                if (listIter.hasNext()) {
+                    s1 = listIter.next();
+                } else {
+                    listIter = subjectArrayList.listIterator();
+                    s1 = listIter.next();
+                }
 
-                    //repeat 3
-                    start.add(Calendar.DATE, 1);
-                    date = start.getTime();
-                    TimeInMillis = date.getTime();
-                    addEvent(str, TimeInMillis);
+                if (listIter.hasNext()) {
+                    s2 = listIter.next();
+                } else {
+                    listIter = subjectArrayList.listIterator();
+                    s2 = listIter.next();
+                }
 
+                if (listIter.hasNext()) {
+                    s3 = listIter.next();
+                } else {
+                    listIter = subjectArrayList.listIterator();
+                    s3 = listIter.next();
                 }
 
 
+                // repetitions
+
+
+                str = s1 + "_" + s2 + "_" + s3;
             }
 
-            end1.add(Calendar.DATE, 2);
-            start = end;
-            start.add(Calendar.DATE, 1);
+            TimeInMillis = date.getTime();
+            if (repetition == 1) {
+                if (!addEvent(str, TimeInMillis))
+                break;
+
+            } else if (repetition == 2) {
+
+                // repeat 1
+                if (!addEvent(str, TimeInMillis))
+                break;
 
 
-            for (Date date = start.getTime(); start.before(end1); start.add(Calendar.DATE, 1), date = start.getTime()) {
+                //repeat 2
+                start.add(Calendar.DATE, 1);
+                date = start.getTime();
                 TimeInMillis = date.getTime();
-                addEvent("Revision", TimeInMillis);
+                if (!addEvent(str, TimeInMillis))
+                    break;
+
+
+            } else {
+
+                // repeat 1
+                if (!addEvent(str, TimeInMillis))
+                    break;
+
+
+                //repeat 2
+                start.add(Calendar.DATE, 1);
+                date = start.getTime();
+                TimeInMillis = date.getTime();
+                if (!addEvent(str, TimeInMillis))
+                    break;
+
+
+                //repeat 3
+                start.add(Calendar.DATE, 1);
+                date = start.getTime();
+                TimeInMillis = date.getTime();
+                if (!addEvent(str, TimeInMillis))
+                    break;
+
             }
+
 
         }
+
+        end1.add(Calendar.DATE, 2);
+        start = end;
+        start.add(Calendar.DATE, 1);
+
+
+        for (Date date = start.getTime(); start.before(end1); start.add(Calendar.DATE, 1), date = start.getTime()) {
+            TimeInMillis = date.getTime();
+            addEvent("Revision", TimeInMillis);
+        }
+
     }
+}
 

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class AddExam extends AppCompatActivity {
-DatabaseHelper mydb;
+    DatabaseHelper mydb;
 
     Calendar cal = Calendar.getInstance();
     EditText ExamDate, Subject, ExamTime, Title;
@@ -24,7 +24,7 @@ DatabaseHelper mydb;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_exam);
-mydb=new DatabaseHelper(this);
+        mydb = new DatabaseHelper(this);
 
         ExamDate = (EditText) findViewById(R.id.ExamDatePick);
         Subject = (EditText) findViewById(R.id.SubjectName);
@@ -45,7 +45,7 @@ mydb=new DatabaseHelper(this);
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            monthOfYear=monthOfYear+1;
+            monthOfYear = monthOfYear + 1;
             str_exam_date = dayOfMonth + "/" + monthOfYear + "/" + year;
             ExamDate.setText(str_exam_date);
         }
@@ -78,21 +78,40 @@ mydb=new DatabaseHelper(this);
 
 
     public void onClickOk(View view) {
-        exam_title = Title.getText().toString();
-        subject = Subject.getText().toString();
 
-        mydb.insertData_EXAM(exam_title, subject, str_exam_date,str_exam_time);
 
-        Intent showExamIntent = new Intent(getApplicationContext(), ShowExam.class);
-        startActivity(showExamIntent);
+        if (isNotEmptyField(Title) && isNotEmptyField(Subject)) {
+            exam_title = Title.getText().toString();
+            subject = Subject.getText().toString();
 
+
+            boolean isInserted = mydb.insertData_EXAM(exam_title, subject, str_exam_date, str_exam_time);
+            if (isInserted == false)
+                Toast.makeText(AddExam.this, "Fail to add Exam", Toast.LENGTH_SHORT).show();
+
+
+            Intent showExamIntent = new Intent(getApplicationContext(), ShowExam.class);
+            startActivity(showExamIntent);
+        } else
+            Toast.makeText(AddExam.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
     }
 
 
     public void onClickCancel(View view) {
 
-        Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(mainActivityIntent);
     }
+
+
+    // validations
+
+    public boolean isNotEmptyField(EditText editText) {
+        if (editText.getText().toString().length() <= 0)
+            return false;
+        else
+            return true;
+    }
+
 
 }
