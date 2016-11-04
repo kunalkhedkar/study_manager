@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kunal.studymanager.AddSubject;
 import com.example.kunal.studymanager.DatabaseHelper;
@@ -22,6 +23,8 @@ public class ShowSubject extends AppCompatActivity {
 
     FloatingActionButton fab;
     TextView tempDisplay;
+    ListView marksList;
+    SimpleAdapter simpleAdapter;
 
     private String[] FROM = new String[]{"SubjectName", "Chpt"};
     private int[] TO = new int[]{R.id.SubjectName, R.id.chpt};
@@ -38,11 +41,16 @@ public class ShowSubject extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab_add);
 
 
+        build_listview();
 
+
+    }
+
+    private void build_listview() {
         ArrayList<HashMap<String, String>> data = populateData();
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.subject_detail_list_view, FROM, TO);
-        ListView marksList = (ListView) findViewById(R.id.subject_detail_list_view);
+        simpleAdapter = new SimpleAdapter(this, data, R.layout.subject_detail_list_view, FROM, TO);
+        marksList = (ListView) findViewById(R.id.subject_detail_list_view);
         marksList.setAdapter(simpleAdapter);
     }
 
@@ -78,6 +86,19 @@ public class ShowSubject extends AppCompatActivity {
 
         Intent addSubjectIntent = new Intent(getApplicationContext(), AddSubject.class);
         startActivity(addSubjectIntent);
+
+    }
+
+    public void check(View view){
+
+        View parentRow = (View) view.getParent();
+        final int position = marksList.getPositionForView(parentRow);
+
+        HashMap<String, Object> obj = (HashMap<String, Object>) marksList.getAdapter().getItem(position);
+        String name = (String) obj.get("SubjectName");
+        mydb.delete_sub(name);
+        build_listview();
+        Toast.makeText(ShowSubject.this, "item deleted "+name, Toast.LENGTH_SHORT).show();
 
     }
 

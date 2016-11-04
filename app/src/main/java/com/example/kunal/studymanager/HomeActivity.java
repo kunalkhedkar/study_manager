@@ -83,6 +83,7 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+
     private void build_home_view() {
 
         set_today();
@@ -497,4 +498,5 @@ public class HomeActivity extends AppCompatActivity
 
 
     }
+
 }

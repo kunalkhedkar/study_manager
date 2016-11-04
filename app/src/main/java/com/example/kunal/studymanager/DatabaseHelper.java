@@ -63,6 +63,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public boolean delete_sub(String sub){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from subject_table where SUBJECT_NAME= "+"'"+sub+"'" );
+        return true;
+    }
+
 
     // -----------------------  TASK -------------------------------------
 

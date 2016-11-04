@@ -57,5 +57,14 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete"
+        android:layout_gravity="right"
+        android:onClick="check"
+        android:layout_marginRight="10dp"
+        />
+
 
 </LinearLayout>
