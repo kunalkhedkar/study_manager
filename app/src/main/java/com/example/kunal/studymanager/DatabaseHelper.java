@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 /**
  * Created by kunal on 27/10/16.
@@ -48,7 +49,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             result = db.insert(SUBJECT_TABLE, null, contentValues);
         }
-        catch (Exception e){}
+        catch (Exception e){
+            return false;
+        }
 
             if (result == -1)
                 return false;
@@ -65,8 +68,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean delete_sub(String sub){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from subject_table where SUBJECT_NAME= "+"'"+sub+"'" );
-        return true;
+        try {
+            db.execSQL("delete from subject_table where SUBJECT_NAME= " + "'" + sub + "'");
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
 
@@ -94,6 +102,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public boolean delete_task(String name,String date,String time){
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.execSQL("delete from task_table where TASK_NAME= ? AND TASK_DATE=? AND TASK_TIME=?",new String[] { name,date,time});
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
     // -----------------------  EXAM -------------------------------------
 
     public boolean insertData_EXAM(String exam_name, String subject_name, String exam_date, String exam_time) {
@@ -119,6 +137,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public boolean delete_exam(String exam_name,String sub_name, String date,String time){
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.execSQL("delete from task_table where EXAM_NAME= ? AND SUBJECT_NAME=? AND EXAM_DATE=? AND EXAM_TIME=?",new String[] { exam_name,sub_name,date,time});
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
 
     // -----------------------  MARKS -------------------------------------
 
@@ -144,6 +172,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor result = db.rawQuery("select * from " + MARKS_TABLE, null);
         return result;
+    }
+
+    public boolean delete_marks(String Examname,String sub_name,int score_marks,int total_marks){
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.execSQL("delete from marks_table where TEST_NAME= ? AND SUBJECT_NAME=? AND SCORE_MARKS=? AND TOTAL_MARKS=?",new String[] { Examname,sub_name,score_marks+"",total_marks+""});
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
 

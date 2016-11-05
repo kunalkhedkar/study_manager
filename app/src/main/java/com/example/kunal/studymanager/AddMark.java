@@ -29,12 +29,12 @@ public class AddMark extends AppCompatActivity {
 
     public void onClickOk(View view) {
 
-        if (isNotEmptyField(testName) && isNotEmptyField(scoredMarks) && isNotEmptyField(outOfMarks) && isNotEmptyField(choose_subject)) {
+
             testName = (EditText) findViewById(R.id.test_name);
             scoredMarks = (EditText) findViewById(R.id.scoredMark);
             outOfMarks = (EditText) findViewById(R.id.outofMark);
             choose_subject = (EditText) findViewById(R.id.choose_subject);
-
+        if (isNotEmptyField(testName) && isNotEmptyField(scoredMarks) && isNotEmptyField(outOfMarks) && isNotEmptyField(choose_subject)) {
             str_testName = testName.getText().toString();
             val_scoredMarks = Integer.parseInt(scoredMarks.getText().toString());
             val_outOfMarks = Integer.parseInt(outOfMarks.getText().toString());

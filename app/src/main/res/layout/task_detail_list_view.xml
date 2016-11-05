@@ -55,6 +55,20 @@
             android:textSize="15sp"
             tools:text="15/12/1993" />
 
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:onClick="delete_task"
+                android:clickable="true"
+                android:layout_marginRight="7dp" />
+        </RelativeLayout>
+
     </LinearLayout>
 
 
@@ -82,7 +96,9 @@
             android:textSize="15sp"
             tools:text="11:30 PM" />
 
+
     </LinearLayout>
+
 
 
 </LinearLayout>

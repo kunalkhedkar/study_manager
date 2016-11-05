@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,8 @@ public class ShowMark extends AppCompatActivity {
 
     FloatingActionButton fab;
     TextView tempDisplay;
+    ListView marksList;
+    SimpleAdapter simpleAdapter;
 
     private String[] FROM = new String[]{"ExamName", "SubjectName", "ScoreMakrs", "TotalMarks"};
     private int[] TO = new int[]{R.id.exam_name, R.id.subject_name, R.id.scored_marks, R.id.total_marks};
@@ -34,14 +37,23 @@ public class ShowMark extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab_add);
 
 
-//        init();
+        build_listview();
 
         ArrayList<HashMap<String, String>> data = populateData();
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.marks_detail_list_item, FROM, TO);
-        ListView marksList = (ListView) findViewById(R.id.marks_detail_list_view);
+        simpleAdapter = new SimpleAdapter(this, data, R.layout.marks_detail_list_item, FROM, TO);
+        marksList = (ListView) findViewById(R.id.marks_detail_list_view);
         marksList.setAdapter(simpleAdapter);
 
+    }
+
+    private void build_listview() {
+
+        ArrayList<HashMap<String, String>> data = populateData();
+
+        simpleAdapter = new SimpleAdapter(this, data, R.layout.marks_detail_list_item, FROM, TO);
+        marksList = (ListView) findViewById(R.id.marks_detail_list_view);
+        marksList.setAdapter(simpleAdapter);
     }
 
     private ArrayList<HashMap<String, String>> populateData() {
@@ -83,6 +95,29 @@ public class ShowMark extends AppCompatActivity {
 
         Intent addMarkIntent = new Intent(getApplicationContext(), AddMark.class);
         startActivity(addMarkIntent);
+
+    }
+
+    public void delete_marks(View view){
+
+        View parentRow = (View) view.getParent();
+        final int position = marksList.getPositionForView(parentRow);
+
+        HashMap<String, Object> obj = (HashMap<String, Object>) marksList.getAdapter().getItem(position);
+        String Examname = (String) obj.get("ExamName");
+        String sub_name = (String) obj.get("SubjectName");
+        String score_marks = (String) obj.get("ScoreMakrs");
+        String total_marks = (String) obj.get("TotalMarks");
+
+        if(mydb.delete_marks(Examname,sub_name,Integer.parseInt(score_marks),Integer.parseInt(total_marks))){
+            build_listview();
+            Toast.makeText(ShowMark.this, "Record deleted", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(ShowMark.this, "Fail to delete record", Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 }

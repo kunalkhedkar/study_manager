@@ -89,17 +89,20 @@ public class ShowSubject extends AppCompatActivity {
 
     }
 
-    public void check(View view){
+    public void delete_subject(View view){
 
         View parentRow = (View) view.getParent();
         final int position = marksList.getPositionForView(parentRow);
 
         HashMap<String, Object> obj = (HashMap<String, Object>) marksList.getAdapter().getItem(position);
         String name = (String) obj.get("SubjectName");
-        mydb.delete_sub(name);
-        build_listview();
-        Toast.makeText(ShowSubject.this, "item deleted "+name, Toast.LENGTH_SHORT).show();
 
+        if(mydb.delete_sub(name)) {
+            build_listview();
+            Toast.makeText(ShowSubject.this, name+"deleted ", Toast.LENGTH_SHORT).show();
+        }
+        else
+            Toast.makeText(ShowSubject.this, "Fail to delete record", Toast.LENGTH_SHORT).show();
     }
 
 

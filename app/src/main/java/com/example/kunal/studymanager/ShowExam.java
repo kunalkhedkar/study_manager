@@ -19,6 +19,8 @@ public class ShowExam extends AppCompatActivity {
 
     FloatingActionButton fab;
     TextView tempDisplay;
+    SimpleAdapter simpleAdapter;
+    ListView examList;
 
     private String[] FROM = new String[]{"ExamName", "SubjectName", "Examdate", "ExamTime"};
     private int[] TO = new int[]{R.id.exam_name, R.id.subject_name, R.id.exam_date, R.id.exam_time};
@@ -33,12 +35,21 @@ public class ShowExam extends AppCompatActivity {
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         fab = (FloatingActionButton) findViewById(R.id.fab_add);
 
-        //    init();
+        build_listview();
 
         ArrayList<HashMap<String, String>> data = populateData();
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.exam_detail_list_item, FROM, TO);
-        ListView examList = (ListView) findViewById(R.id.exam_detail_list_view);
+        simpleAdapter = new SimpleAdapter(this, data, R.layout.exam_detail_list_item, FROM, TO);
+        examList = (ListView) findViewById(R.id.exam_detail_list_view);
+        examList.setAdapter(simpleAdapter);
+    }
+
+    private void build_listview() {
+
+        ArrayList<HashMap<String, String>> data = populateData();
+
+        simpleAdapter = new SimpleAdapter(this, data, R.layout.exam_detail_list_item, FROM, TO);
+        examList = (ListView) findViewById(R.id.exam_detail_list_view);
         examList.setAdapter(simpleAdapter);
     }
 
@@ -77,6 +88,27 @@ public class ShowExam extends AppCompatActivity {
 
         Intent addExamIntent = new Intent(getApplicationContext(), AddExam.class);
         startActivity(addExamIntent);
+
+    }
+
+    public void delete_exam(View view){
+
+        View parentRow = (View) view.getParent();
+        final int position = examList.getPositionForView(parentRow);
+
+        HashMap<String, Object> obj = (HashMap<String, Object>) examList.getAdapter().getItem(position);
+        String ExamName = (String) obj.get("ExamName");
+        String SubjectName = (String) obj.get("SubjectName");
+        String Examdate = (String) obj.get("Examdate");
+        String ExamTime = (String) obj.get("ExamTime");
+
+        if(mydb.delete_exam(ExamName,SubjectName,Examdate,ExamTime)){
+            build_listview();
+            Toast.makeText(ShowExam.this,ExamName+ " details deleted ", Toast.LENGTH_SHORT).show();
+        }
+        else
+            Toast.makeText(ShowExam.this, "Fail to delete Record", Toast.LENGTH_SHORT).show();
+
 
     }
 }

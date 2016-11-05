@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,8 @@ DatabaseHelper mydb;
 
     FloatingActionButton fab;
     TextView tempDisplay;
+    ListView TaskList;
+    SimpleAdapter simpleAdapter;
 
     private String[] FROM = new String[]{"TaskName", "TaskDate", "TaskTime"};
     private int[] TO = new int[]{R.id.task_name, R.id.task_date, R.id.task_time};
@@ -36,12 +39,17 @@ DatabaseHelper mydb;
 
         //       init();
 
+        build_listview();
 
+
+    }
+
+    private void build_listview() {
         ArrayList<HashMap<String, String>> data = populateData();
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.task_detail_list_view, FROM, TO);
-        ListView marksList = (ListView) findViewById(R.id.task_detail_list_view);
-        marksList.setAdapter(simpleAdapter);
+        simpleAdapter = new SimpleAdapter(this, data, R.layout.task_detail_list_view, FROM, TO);
+        TaskList = (ListView) findViewById(R.id.task_detail_list_view);
+        TaskList.setAdapter(simpleAdapter);
     }
 
     private ArrayList<HashMap<String, String>> populateData() {
@@ -79,5 +87,22 @@ DatabaseHelper mydb;
         Intent addTaskIntent = new Intent(getApplicationContext(), AddTask.class);
         startActivity(addTaskIntent);
 
+    }
+    public void delete_task(View view){
+
+        View parentRow = (View) view.getParent();
+        final int position = TaskList.getPositionForView(parentRow);
+
+        HashMap<String, Object> obj = (HashMap<String, Object>) TaskList.getAdapter().getItem(position);
+        String name = (String) obj.get("TaskName");
+        String date = (String) obj.get("TaskDate");
+        String time = (String) obj.get("TaskTime");
+
+        if(mydb.delete_task(name,date,time)) {
+            build_listview();
+            Toast.makeText(ShowTask.this, name+" deleted ", Toast.LENGTH_SHORT).show();
+        }
+        else
+            Toast.makeText(ShowTask.this, "Fail to delete record", Toast.LENGTH_SHORT).show();
     }
 }
