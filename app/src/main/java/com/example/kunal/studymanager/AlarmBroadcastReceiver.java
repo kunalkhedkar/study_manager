@@ -17,15 +17,16 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "onReceive: Alarm ON");
-        myNotification(context, "Last Date for submission of Assignment");
+        Log.d(TAG, "onReceive: Alarm ON -----------------[ done ]----------------------");
+        String str=intent.getStringExtra("taskname");
+        myNotification(context, str);
     }
 
     private void myNotification(Context context, String message) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setContentTitle("Remainder");
         mBuilder.setContentText(message);
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher_2);
 
         Notification notification = mBuilder.build();
         NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);

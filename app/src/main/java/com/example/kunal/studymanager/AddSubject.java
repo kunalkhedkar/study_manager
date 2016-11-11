@@ -54,7 +54,7 @@ public class AddSubject extends AppCompatActivity {
 
     public void onClickCancel(View view) {
 
-        Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(mainActivityIntent);
     }
 

@@ -11,10 +11,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
@@ -62,6 +64,17 @@ public class ShowSchedule extends AppCompatActivity {
         ScheduleList.setAdapter(simpleAdapter);
         ScheduleList.setSelection(position);
 
+        if(data.size()==0) {
+
+            TextView message= (TextView) findViewById(R.id.message);
+            if(message!=null)
+            message.setVisibility(View.VISIBLE);
+
+            ImageView img= (ImageView) findViewById(R.id.img_Alert);
+            if(img!=null)
+                img.setVisibility(View.VISIBLE);
+
+        }
     }
 
 

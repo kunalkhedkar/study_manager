@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -15,6 +16,7 @@ import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -136,47 +138,48 @@ public class HomeActivity extends AppCompatActivity
         if (cur.getCount() > 0) {
             cur.moveToFirst();
 
-
-            String nameOfEvent = (cur.getString(1));
-            String locID = (cur.getString(5));
-            String MYKEY = null;
-            if (locID != null && !TextUtils.equals(locID, "")) {
-                if (locID.contains("_")) {
-
-
-                    String[] parts = locID.split("_");
-                    if (parts.length == 2) {
-                        MYKEY = parts[0];
-
-                    }
-                }
-            }
-
-            if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
-
-                if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
-                    today.setText(nameOfEvent);
+            do {
+                String nameOfEvent = (cur.getString(1));
+                String locID = (cur.getString(5));
+                String MYKEY = null;
+                if (locID != null && !TextUtils.equals(locID, "")) {
+                    if (locID.contains("_")) {
 
 
-                } else if (noOfSubPerDay == 2) {
-                    String[] parts = nameOfEvent.split("_");
-                    if (parts.length == 2) {
-                        today.setText(parts[0]);
-                        today.append("\n" + parts[1]);
+                        String[] parts = locID.split("_");
+                        if (parts.length == 2) {
+                            MYKEY = parts[0];
 
-                    }
-                } else if (noOfSubPerDay == 3) {
-                    String[] parts = nameOfEvent.split("_");
-                    if (parts.length == 3) {
-                        today.setText(parts[0]);
-                        today.append("\n" + parts[1]);
-                        today.append("\n" + parts[2]);
-
+                        }
                     }
                 }
 
+                if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
 
-            }
+                    if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
+                        today.setText(nameOfEvent);
+
+
+                    } else if (noOfSubPerDay == 2) {
+                        String[] parts = nameOfEvent.split("_");
+                        if (parts.length == 2) {
+                            today.setText(parts[0]);
+                            today.append("\n" + parts[1]);
+
+                        }
+                    } else if (noOfSubPerDay == 3) {
+                        String[] parts = nameOfEvent.split("_");
+                        if (parts.length == 3) {
+                            today.setText(parts[0]);
+                            today.append("\n" + parts[1]);
+                            today.append("\n" + parts[2]);
+
+                        }
+                    }
+
+
+                }
+            }while (cur.moveToNext());
         }
     }
 
@@ -208,47 +211,48 @@ public class HomeActivity extends AppCompatActivity
         if (cur.getCount() > 0) {
             cur.moveToFirst();
 
-
-            String nameOfEvent = (cur.getString(1));
-            String locID = (cur.getString(5));
-            String MYKEY = null;
-            if (locID != null && !TextUtils.equals(locID, "")) {
-                if (locID.contains("_")) {
-
-
-                    String[] parts = locID.split("_");
-                    if (parts.length == 2) {
-                        MYKEY = parts[0];
-
-                    }
-                }
-            }
-
-            if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
-
-                if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
-                    tomorrow.setText(nameOfEvent);
+            do{
+                String nameOfEvent = (cur.getString(1));
+                String locID = (cur.getString(5));
+                String MYKEY = null;
+                if (locID != null && !TextUtils.equals(locID, "")) {
+                    if (locID.contains("_")) {
 
 
-                } else if (noOfSubPerDay == 2) {
-                    String[] parts = nameOfEvent.split("_");
-                    if (parts.length == 2) {
-                        tomorrow.setText(parts[0]);
-                        tomorrow.append("\n" + parts[1]);
+                        String[] parts = locID.split("_");
+                        if (parts.length == 2) {
+                            MYKEY = parts[0];
 
-                    }
-                } else if (noOfSubPerDay == 3) {
-                    String[] parts = nameOfEvent.split("_");
-                    if (parts.length == 3) {
-                        tomorrow.setText(parts[0]);
-                        tomorrow.append("\n" + parts[1]);
-                        tomorrow.append("\n" + parts[2]);
-
+                        }
                     }
                 }
 
+                if (TextUtils.equals(MYKEY, "PROJECTEVENTINDENTIFIRE")) {
 
-            }
+                    if (noOfSubPerDay == 1 || TextUtils.equals(nameOfEvent, "Revision")) {
+                        tomorrow.setText(nameOfEvent);
+
+
+                    } else if (noOfSubPerDay == 2) {
+                        String[] parts = nameOfEvent.split("_");
+                        if (parts.length == 2) {
+                            tomorrow.setText(parts[0]);
+                            tomorrow.append("\n" + parts[1]);
+
+                        }
+                    } else if (noOfSubPerDay == 3) {
+                        String[] parts = nameOfEvent.split("_");
+                        if (parts.length == 3) {
+                            tomorrow.setText(parts[0]);
+                            tomorrow.append("\n" + parts[1]);
+                            tomorrow.append("\n" + parts[2]);
+
+                        }
+                    }
+
+
+                }
+            }while (cur.moveToNext());
         }
     }
 
@@ -386,19 +390,33 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             // delete all cal event
 
-            Rest_Schedule();
-            mydb.drop_schedule();
-            Toast.makeText(HomeActivity.this, "Done", Toast.LENGTH_SHORT).show();
-            return true;
+
+            AlertDialog.Builder abuild = new AlertDialog.Builder(HomeActivity.this);
+            abuild.setMessage("Do you want to reset schedule?").setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Rest_Schedule();
+                            mydb.drop_schedule();
+                            Toast.makeText(HomeActivity.this, "Done", Toast.LENGTH_SHORT).show();
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog alert = abuild.create();
+            alert.show();
+
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void Rest_Schedule() {
-
-
-
 
         Uri event = Uri.parse("content://com.android.calendar/events");
         Cursor cursor = getContentResolver().query(
@@ -457,6 +475,10 @@ public class HomeActivity extends AppCompatActivity
 
             Cursor result = mydb.getData_SCHEDULE();
             if (result.getCount() == 0) {
+
+                Rest_Schedule();
+                mydb.drop_schedule();
+
                 Intent scheduleData = new Intent(getApplicationContext(), ScheduleData.class);
                 startActivity(scheduleData);
             } else {

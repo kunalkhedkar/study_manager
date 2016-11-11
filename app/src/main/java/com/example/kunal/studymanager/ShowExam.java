@@ -1,8 +1,10 @@
 package com.example.kunal.studymanager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -97,17 +99,43 @@ public class ShowExam extends AppCompatActivity {
         final int position = examList.getPositionForView(parentRow);
 
         HashMap<String, Object> obj = (HashMap<String, Object>) examList.getAdapter().getItem(position);
-        String ExamName = (String) obj.get("ExamName");
-        String SubjectName = (String) obj.get("SubjectName");
-        String Examdate = (String) obj.get("Examdate");
-        String ExamTime = (String) obj.get("ExamTime");
+        final String ExamName = (String) obj.get("ExamName");
+        final String SubjectName = (String) obj.get("SubjectName");
+        final String Examdate = (String) obj.get("Examdate");
+        final String ExamTime = (String) obj.get("ExamTime");
 
-        if(mydb.delete_exam(ExamName,SubjectName,Examdate,ExamTime)){
-            build_listview();
-            Toast.makeText(ShowExam.this,ExamName+ " details deleted ", Toast.LENGTH_SHORT).show();
-        }
-        else
-            Toast.makeText(ShowExam.this, "Fail to delete Record", Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder abuild = new AlertDialog.Builder(ShowExam.this);
+        abuild.setMessage("Do you want to delete "+ExamName+"?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if(mydb.delete_exam(ExamName,SubjectName,Examdate,ExamTime)){
+                            build_listview();
+                            Toast.makeText(ShowExam.this,ExamName+ " details deleted ", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                            Toast.makeText(ShowExam.this, "Fail to delete Record", Toast.LENGTH_SHORT).show();
+
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = abuild.create();
+        alert.show();
+
+
+
+
+
+
+
+
+
 
 
     }

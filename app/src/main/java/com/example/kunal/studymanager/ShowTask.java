@@ -1,8 +1,10 @@
 package com.example.kunal.studymanager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -94,15 +96,41 @@ DatabaseHelper mydb;
         final int position = TaskList.getPositionForView(parentRow);
 
         HashMap<String, Object> obj = (HashMap<String, Object>) TaskList.getAdapter().getItem(position);
-        String name = (String) obj.get("TaskName");
-        String date = (String) obj.get("TaskDate");
-        String time = (String) obj.get("TaskTime");
+        final String name = (String) obj.get("TaskName");
+        final String date = (String) obj.get("TaskDate");
+        final String time = (String) obj.get("TaskTime");
 
-        if(mydb.delete_task(name,date,time)) {
-            build_listview();
-            Toast.makeText(ShowTask.this, name+" deleted ", Toast.LENGTH_SHORT).show();
-        }
-        else
-            Toast.makeText(ShowTask.this, "Fail to delete record", Toast.LENGTH_SHORT).show();
+
+
+        AlertDialog.Builder abuild = new AlertDialog.Builder(ShowTask.this);
+        abuild.setMessage("Do you want to delete "+name+"?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        if(mydb.delete_task(name,date,time)) {
+                            build_listview();
+                            Toast.makeText(ShowTask.this, name+" deleted ", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                            Toast.makeText(ShowTask.this, "Fail to delete record", Toast.LENGTH_SHORT).show();
+
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = abuild.create();
+        alert.show();
+
+
+
+
+
+
     }
 }

@@ -53,17 +53,18 @@ public class AddTask extends AppCompatActivity {
         task_name = (EditText) findViewById(R.id.taskName);
 
         remainder_day = (Spinner) findViewById(R.id.choose_remainder_day);
-        String DAYS_LIST[] = {"1 hour", "3 hours", "8 hours", "12 hours", "1 day", "2 days", "3 days", "1 week", "2 weeks", "3 week", "1 month"};
+        String DAYS_LIST[] = {"1 hour", "3 hours", "8 hours", "12 hours", "1 day", "2 days", "3 days", "1 week"};
 
         ArrayAdapter a = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, DAYS_LIST);
         remainder_day.setAdapter(a);
+        checkBox = (CheckBox) findViewById(R.id.RemainderCheckbox);
 
 
     }
 
     public void checkboxclickfun(View view) {
 
-        checkBox = (CheckBox) findViewById(R.id.RemainderCheckbox);
+
         if (checkBox.isChecked()) {
             remainder_day.setVisibility(View.VISIBLE);
         } else {
@@ -89,8 +90,7 @@ public class AddTask extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-            monthOfYear = monthOfYear + 1;
-            str_task_date = dayOfMonth + "/" + monthOfYear + "/" + year;
+            str_task_date = dayOfMonth + "/" + (monthOfYear+1) + "/" + year;
             task_display_date.setText(str_task_date);
 
 
@@ -110,9 +110,10 @@ public class AddTask extends AppCompatActivity {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             String am_pm;
-
-            if (hourOfDay < 12)
+            if (hourOfDay < 12) {
+                TASK_CALENDAR_DATE.set(Calendar.AM_PM,Calendar.AM);
                 am_pm = "AM";
+            }
             else {
                 am_pm = "PM";
                 hourOfDay = hourOfDay - 12;
@@ -122,6 +123,10 @@ public class AddTask extends AppCompatActivity {
 
             TASK_CALENDAR_DATE.set(Calendar.HOUR_OF_DAY, hourOfDay);
             TASK_CALENDAR_DATE.set(Calendar.MINUTE, minute);
+            TASK_CALENDAR_DATE.set(Calendar.SECOND, 0);
+            TASK_CALENDAR_DATE.set(Calendar.MILLISECOND, 0);
+
+
 
 
         }
@@ -130,14 +135,14 @@ public class AddTask extends AppCompatActivity {
     public void onClickOk(View view) {
 
 
-        if (isNotEmptyField(task_display_date) || isNotEmptyField(task_display_time)) {
+        if (isNotEmptyField(task_display_date) || isNotEmptyField(task_display_time) || isNotEmptyField(task_name)) {
 
             if (checkBox.isChecked()) {
                 set_Remaindar();
             }
 
             boolean isInserted = mydb.insertData_TASK(task_name.getText().toString(), str_task_date, str_task_time);
-            if (isInserted == false)
+            if (!isInserted)
                 Toast.makeText(AddTask.this, "Fail to add Exam", Toast.LENGTH_SHORT).show();
 
 
@@ -152,18 +157,34 @@ public class AddTask extends AppCompatActivity {
 
     void set_Remaindar() {
         str_choose_remainder = remainder_day.getSelectedItem().toString();
-        Toast.makeText(AddTask.this, str_choose_remainder + " is selected", Toast.LENGTH_SHORT).show();
         //setAlarm();
+/*
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
         Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
+
         alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        //alarmManager.set(AlarmManager.RTC_WAKEUP, REMAINDER_CALENDAR_DATE.getTimeInMillis(), alarmIntent);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, TASK_CALENDAR_DATE.getTimeInMillis(), alarmIntent);
+*/
+
+        long time=TASK_CALENDAR_DATE.getTimeInMillis();
+Calendar cal =Calendar.getInstance();
+        cal.add(Calendar.SECOND, 30);
+        Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
+        intent.putExtra("taskname",task_name.getText().toString());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,intent, PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP,time , pendingIntent);
+
 
         Toast.makeText(AddTask.this, "Reminder is set", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickCancel(View view) {
-        Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(mainActivityIntent);
     }
 
@@ -172,6 +193,7 @@ public class AddTask extends AppCompatActivity {
             return false;
         else
             return true;
+
     }
 
 }

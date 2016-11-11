@@ -1,8 +1,10 @@
 package com.example.kunal.studymanager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -104,19 +106,42 @@ public class ShowMark extends AppCompatActivity {
         final int position = marksList.getPositionForView(parentRow);
 
         HashMap<String, Object> obj = (HashMap<String, Object>) marksList.getAdapter().getItem(position);
-        String Examname = (String) obj.get("ExamName");
-        String sub_name = (String) obj.get("SubjectName");
-        String score_marks = (String) obj.get("ScoreMakrs");
-        String total_marks = (String) obj.get("TotalMarks");
+        final String Examname = (String) obj.get("ExamName");
+        final String sub_name = (String) obj.get("SubjectName");
+        final String score_marks = (String) obj.get("ScoreMakrs");
+        final String total_marks = (String) obj.get("TotalMarks");
 
-        if(mydb.delete_marks(Examname,sub_name,Integer.parseInt(score_marks),Integer.parseInt(total_marks))){
-            build_listview();
-            Toast.makeText(ShowMark.this, "Record deleted", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            Toast.makeText(ShowMark.this, "Fail to delete record", Toast.LENGTH_SHORT).show();
-        }
+
+
+
+
+        AlertDialog.Builder abuild = new AlertDialog.Builder(ShowMark.this);
+        abuild.setMessage("Do you want to delete "+Examname+"?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        if(mydb.delete_marks(Examname,sub_name,Integer.parseInt(score_marks),Integer.parseInt(total_marks))){
+                            build_listview();
+                            Toast.makeText(ShowMark.this, "Record deleted", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(ShowMark.this, "Fail to delete record", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = abuild.create();
+        alert.show();
+
 
 
     }

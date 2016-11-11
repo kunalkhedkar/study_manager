@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + SUBJECT_TABLE + "(SUBJECT_NAME TEXT PRIMARY KEY,CHAPTERS INTEGER)");
         db.execSQL("create table " + TASK_TABLE + "(TASK_NAME TEXT,TASK_DATE TEXT,TASK_TIME TEXT)");
-        db.execSQL("create table " + EXAM_TABLE + "(EXAM_NAME TEXT,SUBJECT_NAME,EXAM_DATE TEXT,EXAM_TIME TEXT)");
+        db.execSQL("create table " + EXAM_TABLE + "(EXAM_NAME TEXT,SUBJECT_NAME TEXT,EXAM_DATE TEXT,EXAM_TIME TEXT)");
         db.execSQL("create table " + MARKS_TABLE + "(TEST_NAME TEXT,SUBJECT_NAME TEXT ,SCORE_MARKS INTEGER,TOTAL_MARKS INTEGER)");
         db.execSQL("create table " + SCHEDULE_TABLE + "(ST_DATE TEXT,END_DATE,TOTAL_DAYS INTEGER,TOTAL_SUBJECT INTEGER,NO_OF_CHPT_PER_DAY INTEGERE,REPETITION INTEGER,REVISION INTEGER)");
     }
@@ -140,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean delete_exam(String exam_name,String sub_name, String date,String time){
         SQLiteDatabase db = this.getWritableDatabase();
         try {
-            db.execSQL("delete from task_table where EXAM_NAME= ? AND SUBJECT_NAME=? AND EXAM_DATE=? AND EXAM_TIME=?",new String[] { exam_name,sub_name,date,time});
+            db.execSQL("delete from exam_table where EXAM_NAME= ? AND SUBJECT_NAME=? AND EXAM_DATE=? AND EXAM_TIME=?",new String[] { exam_name,sub_name,date,time});
             return true;
         }
         catch (Exception e){
@@ -218,20 +218,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     void drop_schedule(){
         SQLiteDatabase db = this.getWritableDatabase();
-        //db.execSQL("DROP TABLE IF EXISTS " + SCHEDULE_TABLE);
-        db.execSQL("delete from "+ SCHEDULE_TABLE);
+
+       db.execSQL("delete from "+ SCHEDULE_TABLE);
         db.execSQL("delete from "+ SUBJECT_TABLE);
+
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("DROP TABLE IF EXISTS" + SUBJECT_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS" + TASK_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS" + EXAM_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS" + MARKS_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS" + SCHEDULE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + SUBJECT_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + TASK_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + EXAM_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + MARKS_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + SCHEDULE_TABLE);
         onCreate(db);
 
     }
