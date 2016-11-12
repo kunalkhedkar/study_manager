@@ -9,6 +9,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import java.util.Date;
+import java.util.Random;
+
 /**
  * Created by kunal on 16/9/16.
  */
@@ -30,7 +33,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         Notification notification = mBuilder.build();
         NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-        nm.notify(1, notification);
+        Random random = new Random();
+        int m = random.nextInt(9999 - 1000) + 1000;
+        nm.notify(m, notification);
 
 
     }

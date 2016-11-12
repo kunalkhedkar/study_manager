@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,7 +91,7 @@ public class AddTask extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-            str_task_date = dayOfMonth + "/" + (monthOfYear+1) + "/" + year;
+            str_task_date = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
             task_display_date.setText(str_task_date);
 
 
@@ -110,23 +111,22 @@ public class AddTask extends AppCompatActivity {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             String am_pm;
+            int hour = hourOfDay;
             if (hourOfDay < 12) {
-                TASK_CALENDAR_DATE.set(Calendar.AM_PM,Calendar.AM);
+                TASK_CALENDAR_DATE.set(Calendar.AM_PM, Calendar.AM);
                 am_pm = "AM";
-            }
-            else {
+            } else {
                 am_pm = "PM";
+                cal.set(Calendar.AM_PM, Calendar.PM);
                 hourOfDay = hourOfDay - 12;
             }
             str_task_time = hourOfDay + ":" + minute + " " + am_pm;
             task_display_time.setText(str_task_time);
 
-            TASK_CALENDAR_DATE.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            TASK_CALENDAR_DATE.set(Calendar.HOUR_OF_DAY, hour);
             TASK_CALENDAR_DATE.set(Calendar.MINUTE, minute);
             TASK_CALENDAR_DATE.set(Calendar.SECOND, 0);
             TASK_CALENDAR_DATE.set(Calendar.MILLISECOND, 0);
-
-
 
 
         }
@@ -168,16 +168,18 @@ public class AddTask extends AppCompatActivity {
         alarmManager.set(AlarmManager.RTC_WAKEUP, TASK_CALENDAR_DATE.getTimeInMillis(), alarmIntent);
 */
 
-        long time=TASK_CALENDAR_DATE.getTimeInMillis();
-Calendar cal =Calendar.getInstance();
+        long time = TASK_CALENDAR_DATE.getTimeInMillis();
+        Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, 30);
         Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
-        intent.putExtra("taskname",task_name.getText().toString());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,intent, PendingIntent.FLAG_ONE_SHOT);
+        intent.putExtra("taskname", task_name.getText().toString());
+
+        final int _id = (int) System.currentTimeMillis();
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,_id, intent, PendingIntent.FLAG_ONE_SHOT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP,time , pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
 
 
         Toast.makeText(AddTask.this, "Reminder is set", Toast.LENGTH_SHORT).show();
