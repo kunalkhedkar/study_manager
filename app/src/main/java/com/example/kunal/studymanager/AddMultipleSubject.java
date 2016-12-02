@@ -123,22 +123,23 @@ public class AddMultipleSubject extends AppCompatActivity {
     public void onClickOk(View view) {
 
 
-        getDataInput_fromScreen();
-        fill_sub_arraylist();
+        if (getDataInput_fromScreen()) {
+            fill_sub_arraylist();
 
-        BuildSchedule();
+            BuildSchedule();
 
-        int i = 0;
-        for (String sub : subjectArrayList) {
-            Log.d(TAG, sub + "   :  " + Count_Arr_Days[i]);
-            i++;
+            int i = 0;
+            for (String sub : subjectArrayList) {
+                Log.d(TAG, sub + "   :  " + Count_Arr_Days[i]);
+                i++;
 
+            }
+
+            Intent scheduleNext = new Intent(getApplicationContext(), SchedulerNext.class);
+            scheduleNext.putExtra("Count_array", Count_Arr_Days);
+
+            startActivity(scheduleNext);
         }
-
-        Intent scheduleNext = new Intent(getApplicationContext(), SchedulerNext.class);
-        scheduleNext.putExtra("Count_array", Count_Arr_Days);
-
-        startActivity(scheduleNext);
     }
 
     private void fill_sub_arraylist() {
@@ -152,10 +153,11 @@ public class AddMultipleSubject extends AppCompatActivity {
         }
     }
 
-    private void getDataInput_fromScreen() {
+    private boolean getDataInput_fromScreen() {
 
         String sub_name = null;
         int chpt = 0;
+        /*
         for (int i = 1; i <= totalSubjects; i++) {
 
             String EDITsub = "subject" + Integer.toString(i);
@@ -182,7 +184,33 @@ public class AddMultipleSubject extends AppCompatActivity {
                 Toast.makeText(AddMultipleSubject.this, "Fail to add subject : " + sub_name, Toast.LENGTH_SHORT).show();
 
 
+
         }
+        */
+        for (int i = 1; i <= totalSubjects; i++) {
+
+            String EDITsub = "subject" + Integer.toString(i);
+            String EDITchpt = "chpt" + Integer.toString(i);
+
+            int subid = getResources().getIdentifier(EDITsub, "id", getApplicationContext().getPackageName());
+            EditText subed = (EditText) findViewById(subid);
+
+            int chptid = getResources().getIdentifier(EDITchpt, "id", getApplicationContext().getPackageName());
+            EditText chpted = (EditText) findViewById(chptid);
+
+            if (isNotEmptyField(subed) && isNotEmptyField(chpted)) {
+                sub_name = subed.getText().toString();
+                chpt = Integer.parseInt(chpted.getText().toString());
+                boolean isInserted = mydb.insertData_SUBJECT(sub_name, chpt);
+                if (!isInserted)
+                    Toast.makeText(AddMultipleSubject.this, "Fail to add subject : " + sub_name, Toast.LENGTH_SHORT).show();
+                return true;
+            } else
+                Toast.makeText(AddMultipleSubject.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
+
+
+        }
+        return false;
     }
 
     public boolean isNotEmptyField(EditText editText) {

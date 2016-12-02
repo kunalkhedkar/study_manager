@@ -372,24 +372,6 @@ public class HomeActivity extends AppCompatActivity
         } else {
             //super.onBackPressed();
 
-
-            AlertDialog.Builder abuild = new AlertDialog.Builder(HomeActivity.this);
-            abuild.setMessage("Do you want close application").setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //finish();
-                            System.exit(0);
-                        }
-                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            AlertDialog alert = abuild.create();
-            alert.show();
         }
     }
 

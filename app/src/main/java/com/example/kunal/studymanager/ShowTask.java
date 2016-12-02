@@ -29,7 +29,7 @@ DatabaseHelper mydb;
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(mainActivityIntent);
     }

@@ -54,12 +54,11 @@ public class AddTask extends AppCompatActivity {
         task_name = (EditText) findViewById(R.id.taskName);
 
         remainder_day = (Spinner) findViewById(R.id.choose_remainder_day);
-        String DAYS_LIST[] = {"1 hour", "3 hours", "8 hours", "12 hours", "1 day", "2 days", "3 days", "1 week"};
+        String DAYS_LIST[] = {"none", "1 hour", "3 hours", "8 hours", "12 hours", "1 day", "2 days", "3 days", "1 week"};
 
         ArrayAdapter a = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, DAYS_LIST);
         remainder_day.setAdapter(a);
         checkBox = (CheckBox) findViewById(R.id.RemainderCheckbox);
-
 
     }
 
@@ -143,7 +142,7 @@ public class AddTask extends AppCompatActivity {
 
             boolean isInserted = mydb.insertData_TASK(task_name.getText().toString(), str_task_date, str_task_time);
             if (!isInserted)
-                Toast.makeText(AddTask.this, "Fail to add Exam", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddTask.this, "Fail to add task", Toast.LENGTH_SHORT).show();
 
 
             Intent showTaskIntent = new Intent(getApplicationContext(), ShowTask.class);
@@ -155,18 +154,49 @@ public class AddTask extends AppCompatActivity {
 
     }
 
+    void set_time_remainder(int pos) {
+        switch (pos) {
+            case 0:
+                break;
+
+            case 1:
+                TASK_CALENDAR_DATE.add(Calendar.HOUR, -1);
+                break;
+
+            case 2:
+                TASK_CALENDAR_DATE.add(Calendar.HOUR, -3);
+                break;
+
+            case 3:
+                TASK_CALENDAR_DATE.add(Calendar.HOUR, -8);
+                break;
+
+            case 4:
+                TASK_CALENDAR_DATE.add(Calendar.HOUR, -12);
+                break;
+
+            case 5:
+                TASK_CALENDAR_DATE.add(Calendar.DATE, -1);
+                break;
+
+            case 6:
+                TASK_CALENDAR_DATE.add(Calendar.DATE, -2);
+                break;
+
+            case 7:
+                TASK_CALENDAR_DATE.add(Calendar.DATE, -3);
+                break;
+
+            case 8:
+                TASK_CALENDAR_DATE.add(Calendar.DATE, -7);
+                break;
+        }
+    }
     void set_Remaindar() {
         str_choose_remainder = remainder_day.getSelectedItem().toString();
-        //setAlarm();
-/*
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
-
-        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, TASK_CALENDAR_DATE.getTimeInMillis(), alarmIntent);
-*/
+        int pos = remainder_day.getSelectedItemPosition();
+        set_time_remainder(pos);
 
         long time = TASK_CALENDAR_DATE.getTimeInMillis();
         Calendar cal = Calendar.getInstance();
