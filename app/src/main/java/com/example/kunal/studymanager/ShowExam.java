@@ -28,6 +28,13 @@ public class ShowExam extends AppCompatActivity {
     private int[] TO = new int[]{R.id.exam_name, R.id.subject_name, R.id.exam_date, R.id.exam_time};
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(mainActivityIntent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_exam);
@@ -69,8 +76,8 @@ public class ShowExam extends AppCompatActivity {
             while (result.moveToNext()) {
                 exam_name = result.getString(0);
                 subject_name = result.getString(1);
-                exam_time = result.getString(2);
-                exam_date = result.getString(3);
+                exam_time = result.getString(3);
+                exam_date = result.getString(2);
 
                 HashMap<String, String> examDetail = new HashMap<>();
                 examDetail.put("ExamName", exam_name);

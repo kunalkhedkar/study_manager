@@ -23,6 +23,12 @@ public class SchedulerNext extends AppCompatActivity {
     TextView textViewsub1, textViewsub2, textViewsub3, textViewsub4, textViewsub5, textViewsub6, textViewsub7, textViewsub8;
     Button sub1, sub2, sub3, sub4, sub5, sub6, sub7, sub8;
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(mainActivityIntent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

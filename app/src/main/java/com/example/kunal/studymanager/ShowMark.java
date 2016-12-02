@@ -27,6 +27,12 @@ public class ShowMark extends AppCompatActivity {
     private String[] FROM = new String[]{"ExamName", "SubjectName", "ScoreMakrs", "TotalMarks"};
     private int[] TO = new int[]{R.id.exam_name, R.id.subject_name, R.id.scored_marks, R.id.total_marks};
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(mainActivityIntent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

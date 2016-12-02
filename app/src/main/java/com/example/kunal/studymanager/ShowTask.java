@@ -28,6 +28,13 @@ DatabaseHelper mydb;
     private int[] TO = new int[]{R.id.task_name, R.id.task_date, R.id.task_time};
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(mainActivityIntent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_task);

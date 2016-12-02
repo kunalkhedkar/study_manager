@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.provider.CalendarContract;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -48,6 +49,7 @@ public class HomeActivity extends AppCompatActivity
     int TotalSubject = 0, noOfSubPerDay = 0;
 
     TextView dateshow, today, tomorrow, task, exam;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -368,7 +370,26 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+
+
+            AlertDialog.Builder abuild = new AlertDialog.Builder(HomeActivity.this);
+            abuild.setMessage("Do you want close application").setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //finish();
+                            System.exit(0);
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog alert = abuild.create();
+            alert.show();
         }
     }
 
@@ -517,6 +538,18 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
+
+    }
+
+    public void open_task(View view) {
+        Intent showTaskIntent = new Intent(getApplicationContext(), ShowTask.class);
+        startActivity(showTaskIntent);
+    }
+
+    public void open_exam(View view) {
+        Intent showExamIntent = new Intent(getApplicationContext(), ShowExam.class);
+        startActivity(showExamIntent);
 
 
     }

@@ -1,6 +1,7 @@
 package com.example.kunal.studymanager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
@@ -36,6 +37,12 @@ public class ShowSchedule extends AppCompatActivity {
     private int[] TO = new int[]{R.id.date, R.id.day, R.id.sub1, R.id.sub2, R.id.sub3};
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(mainActivityIntent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +71,8 @@ public class ShowSchedule extends AppCompatActivity {
         ScheduleList.setAdapter(simpleAdapter);
         ScheduleList.setSelection(position);
 
-        if(data.size()==0) {
 
+        if(data.size()==0) {
             TextView message= (TextView) findViewById(R.id.message);
             if(message!=null)
             message.setVisibility(View.VISIBLE);

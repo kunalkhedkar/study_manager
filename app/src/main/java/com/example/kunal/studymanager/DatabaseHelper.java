@@ -140,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean delete_exam(String exam_name,String sub_name, String date,String time){
         SQLiteDatabase db = this.getWritableDatabase();
         try {
-            db.execSQL("delete from exam_table where EXAM_NAME= ? AND SUBJECT_NAME=? AND EXAM_DATE=? AND EXAM_TIME=?",new String[] { exam_name,sub_name,date,time});
+            db.execSQL("delete from exam_table where EXAM_NAME=? AND SUBJECT_NAME=? AND EXAM_DATE=? AND EXAM_TIME=?", new String[]{exam_name, sub_name, date, time});
             return true;
         }
         catch (Exception e){

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.kunal.studymanager.AddSubject;
 import com.example.kunal.studymanager.DatabaseHelper;
+import com.example.kunal.studymanager.HomeActivity;
 import com.example.kunal.studymanager.R;
 
 import java.util.ArrayList;
@@ -30,6 +31,13 @@ public class ShowSubject extends AppCompatActivity {
 
     private String[] FROM = new String[]{"SubjectName", "Chpt"};
     private int[] TO = new int[]{R.id.SubjectName, R.id.chpt};
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(mainActivityIntent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

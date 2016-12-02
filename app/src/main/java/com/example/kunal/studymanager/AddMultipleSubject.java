@@ -36,6 +36,12 @@ public class AddMultipleSubject extends AppCompatActivity {
     ArrayList<String> subjectArrayList = new ArrayList<>();
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mydb.drop_schedule();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_multiple_subject);
@@ -101,6 +107,13 @@ public class AddMultipleSubject extends AppCompatActivity {
         }
 
 
+    }
+
+
+    public void onClickCancel(View view) {
+
+        Intent mainActivityIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(mainActivityIntent);
     }
 
 
