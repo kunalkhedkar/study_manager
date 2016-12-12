@@ -221,6 +221,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
        db.execSQL("delete from "+ SCHEDULE_TABLE);
         db.execSQL("delete from "+ SUBJECT_TABLE);
+        db.execSQL("delete from " + TASK_TABLE);
+        db.execSQL("delete from " + EXAM_TABLE);
 
     }
 

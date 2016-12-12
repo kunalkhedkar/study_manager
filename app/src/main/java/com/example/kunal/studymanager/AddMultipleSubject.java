@@ -123,7 +123,7 @@ public class AddMultipleSubject extends AppCompatActivity {
     public void onClickOk(View view) {
 
 
-        if (getDataInput_fromScreen()) {
+        getDataInput_fromScreen();
             fill_sub_arraylist();
 
             BuildSchedule();
@@ -139,7 +139,7 @@ public class AddMultipleSubject extends AppCompatActivity {
             scheduleNext.putExtra("Count_array", Count_Arr_Days);
 
             startActivity(scheduleNext);
-        }
+
     }
 
     private void fill_sub_arraylist() {
@@ -153,11 +153,11 @@ public class AddMultipleSubject extends AppCompatActivity {
         }
     }
 
-    private boolean getDataInput_fromScreen() {
+    private void getDataInput_fromScreen() {
 
         String sub_name = null;
         int chpt = 0;
-        /*
+
         for (int i = 1; i <= totalSubjects; i++) {
 
             String EDITsub = "subject" + Integer.toString(i);
@@ -186,7 +186,7 @@ public class AddMultipleSubject extends AppCompatActivity {
 
 
         }
-        */
+        /*
         for (int i = 1; i <= totalSubjects; i++) {
 
             String EDITsub = "subject" + Integer.toString(i);
@@ -211,6 +211,8 @@ public class AddMultipleSubject extends AppCompatActivity {
 
         }
         return false;
+
+        */
     }
 
     public boolean isNotEmptyField(EditText editText) {
